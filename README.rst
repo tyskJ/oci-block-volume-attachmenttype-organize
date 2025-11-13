@@ -67,13 +67,13 @@ OCI Block Volume のアタッチメントを整理する
   region = "ap-tokyo-1"
   EOF
 
-1. *Terraform* 初期化
+2. *Terraform* 初期化
 ---------------------------------------------------------------------
 .. code-block:: bash
 
   terraform init -backend-config="./config.oci.tfbackend"
 
-1. 事前確認
+3. 事前確認
 ---------------------------------------------------------------------
 .. code-block:: bash
 
