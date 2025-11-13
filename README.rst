@@ -101,3 +101,9 @@ OCI Block Volume のアタッチメントを整理する
  --bucket-name <作成したバケット名> \
  --force --empty \
  --profile DEV-ADMIN --auth security_token
+
+参考資料
+=====================================================================
+リファレンス
+---------------------------------------------------------------------
+* `Backend block configuration overview <https://developer.hashicorp.com/terraform/language/backend#partial-configuration>`_
