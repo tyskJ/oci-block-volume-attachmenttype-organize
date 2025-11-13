@@ -42,7 +42,7 @@ OCI Block Volume のアタッチメントを整理する
 ---------------------------------------------------------------------
 .. code-block:: bash
 
-  oci os create \
+  oci os bucket create \
   --compartment-id <デプロイ先コンパートメントID> \
   --name <任意のバケット名> \
   --profile DEV-ADMIN --auth security_token
@@ -59,7 +59,7 @@ OCI Block Volume のアタッチメントを整理する
 
 .. code-block:: bash
 
-  cat <<EOF > backend.config
+  cat <<EOF > config.oci.tfbackend
   bucket = "作成したバケット名"
   namespace = "テナンシに一意に付与されたネームスペース"
   auth = "SecurityToken"
@@ -71,9 +71,9 @@ OCI Block Volume のアタッチメントを整理する
 ---------------------------------------------------------------------
 .. code-block:: bash
 
-  terraform init -backend-config="./backend.config"
+  terraform init -backend-config="./config.oci.tfbackend"
 
-3. 事前確認
+1. 事前確認
 ---------------------------------------------------------------------
 .. code-block:: bash
 
@@ -97,9 +97,7 @@ OCI Block Volume のアタッチメントを整理する
 ---------------------------------------------------------------------
 .. code-block:: bash
 
-  aws s3 rm s3://tf-20250401 --recursive --profile admin
-  aws s3 rb s3://tf-20250401 --profile admin
-
-.. note::
-
-  * *事前作業(2)* で作成したバケット名に合わせること
+ oci os bucket delete \
+ --bucket-name <作成したバケット名> \
+ --force --empty \
+ --profile DEV-ADMIN --auth security_token
