@@ -22,13 +22,13 @@ OCI Block Volume のアタッチメントを整理する
 
 前提条件
 =====================================================================
-* *AdministratorAccess* がアタッチされているIAMユーザーのアクセスキーID/シークレットアクセスキーを作成していること
+* デプロイするコンパートメントに対し ``manage all-resources`` が付与した IAM グループに所属する IAM ユーザーが作成されていること
 * 実作業は *envs* フォルダ配下の各環境フォルダで実施すること
-* 以下コマンドを実行し、*admin* プロファイルを作成していること (デフォルトリージョンは *ap-northeast-1* )
+* 以下コマンドを実行し、*DEV-ADMIN* プロファイルを作成していること (デフォルトリージョンは *ap-tokyo-1* )
 
 .. code-block:: bash
 
-  aws configure --profile admin
+  oci session authenticate
 
 事前作業(1)
 =====================================================================
@@ -42,24 +42,41 @@ OCI Block Volume のアタッチメントを整理する
 ---------------------------------------------------------------------
 .. code-block:: bash
 
-  aws s3 mb s3://tf-20250401 --profile admin
+  oci os create \
+  --compartment-id <デプロイ先コンパートメントID> \
+  --name <任意のバケット名> \
+  --profile DEV-ADMIN --auth security_token
 
 
 実作業 - ローカル -
 =====================================================================
-1. *Terraform* 初期化
+1. *backend* 用設定ファイル作成
+---------------------------------------------------------------------
+
+.. note::
+
+  * *envs* フォルダ配下に作成すること
+
+.. code-block:: bash
+
+  cat <<EOF > backend.config
+  bucket = "作成したバケット名"
+  profile = "DEV-ADMIN"
+  EOF
+
+2. *Terraform* 初期化
 ---------------------------------------------------------------------
 .. code-block:: bash
 
-  terraform init
+  terraform init -backend-config="./backend.config"
 
-2. 事前確認
+3. 事前確認
 ---------------------------------------------------------------------
 .. code-block:: bash
 
   terraform plan
 
-3. デプロイ
+4. デプロイ
 ---------------------------------------------------------------------
 .. code-block:: bash
 
