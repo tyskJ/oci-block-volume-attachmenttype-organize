@@ -61,10 +61,13 @@ OCI Block Volume のアタッチメントを整理する
 
   cat <<EOF > backend.config
   bucket = "作成したバケット名"
-  profile = "DEV-ADMIN"
+  namespace = "テナンシに一意に付与されたネームスペース"
+  auth = "SecurityToken"
+  config_file_profile = "DEV-ADMIN"
+  region = "ap-tokyo-1"
   EOF
 
-2. *Terraform* 初期化
+1. *Terraform* 初期化
 ---------------------------------------------------------------------
 .. code-block:: bash
 

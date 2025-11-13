@@ -8,5 +8,7 @@ terraform {
 }
 
 provider "oci" {
-  region = "ap-tokyo-1"
+  auth                = "SecurityToken"
+  config_file_profile = "DEV-ADMIN"
+  region              = "ap-tokyo-1"
 }
