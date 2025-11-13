@@ -97,10 +97,10 @@ OCI Block Volume のアタッチメントを整理する
 ---------------------------------------------------------------------
 .. code-block:: bash
 
- oci os bucket delete \
- --bucket-name <作成したバケット名> \
- --force --empty \
- --profile DEV-ADMIN --auth security_token
+  oci os bucket delete \
+  --bucket-name <作成したバケット名> \
+  --force --empty \
+  --profile DEV-ADMIN --auth security_token
 
 参考資料
 =====================================================================
