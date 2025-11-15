@@ -107,3 +107,9 @@ OCI Block Volume のアタッチメントを整理する
 リファレンス
 ---------------------------------------------------------------------
 * `Backend block configuration overview <https://developer.hashicorp.com/terraform/language/backend#partial-configuration>`_
+
+ブログ
+---------------------------------------------------------------------
+* `Terraformでmoduleを使わずに複数環境を構築する - Zenn <https://zenn.dev/smartround_dev/articles/5e20fa7223f0fd>`_
+* `Terraformでmoduleを使わずに複数環境を構築して感じた利点 - SpeakerDeck <https://speakerdeck.com/shonansurvivors/building-multiple-environments-without-using-modules-in-terraform>`_
+* `個人的備忘録：Terraformディレクトリ整理の個人メモ（ファイル分割編） - Qiita <https://qiita.com/free-honda/items/5484328d5b52326ed87e>`_
