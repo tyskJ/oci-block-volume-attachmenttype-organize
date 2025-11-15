@@ -76,7 +76,7 @@ OCI Block Volume のアタッチメントを整理する
 
 .. code-block:: bash
 
-  cat <<EOF > oci.tfvars
+  cat <<EOF > oci.auto.tfvars
   compartment_id = "デプロイ先コンパートメントID"
   EOF
 
@@ -127,3 +127,4 @@ OCI Block Volume のアタッチメントを整理する
 * `Terraformでmoduleを使わずに複数環境を構築する - Zenn <https://zenn.dev/smartround_dev/articles/5e20fa7223f0fd>`_
 * `Terraformでmoduleを使わずに複数環境を構築して感じた利点 - SpeakerDeck <https://speakerdeck.com/shonansurvivors/building-multiple-environments-without-using-modules-in-terraform>`_
 * `個人的備忘録：Terraformディレクトリ整理の個人メモ（ファイル分割編） - Qiita <https://qiita.com/free-honda/items/5484328d5b52326ed87e>`_
+* `Terraformの auto.tfvars を使うと、環境管理がずっと楽になる話 - note <https://note.com/minato_kame/n/neb271c81e0e2>`_
