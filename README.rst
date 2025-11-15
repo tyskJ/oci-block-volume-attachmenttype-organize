@@ -78,6 +78,7 @@ OCI Block Volume のアタッチメントを整理する
 
   cat <<EOF > oci.auto.tfvars
   compartment_id = "デプロイ先コンパートメントID"
+  source_ip = "接続元IPアドレス(CIDR形式)"
   EOF
 
 
