@@ -39,3 +39,48 @@ resource "oci_core_route_table_attachment" "attachment" {
   subnet_id      = oci_core_subnet.public.id
   route_table_id = oci_core_route_table.rtb.id
 }
+
+resource "oci_core_network_security_group" "sg" {
+  compartment_id = var.compartment_id
+  vcn_id         = oci_core_vcn.vcn.id
+  display_name   = "sg"
+}
+
+resource "oci_core_network_security_group_security_rule" "sg_rule_1" {
+  network_security_group_id = oci_core_network_security_group.sg.id
+  protocol                  = "6"
+  direction                 = "INGRESS"
+  source                    = var.source_ip
+  stateless                 = false
+  source_type               = "CIDR_BLOCK"
+  tcp_options {
+    destination_port_range {
+      min = 22
+      max = 22
+    }
+  }
+}
+
+resource "oci_core_network_security_group_security_rule" "sg_rule_2" {
+  network_security_group_id = oci_core_network_security_group.sg.id
+  protocol                  = "6"
+  direction                 = "INGRESS"
+  source                    = var.source_ip
+  stateless                 = false
+  source_type               = "CIDR_BLOCK"
+  tcp_options {
+    destination_port_range {
+      min = 3389
+      max = 3389
+    }
+  }
+}
+
+resource "oci_core_network_security_group_security_rule" "sg_rule_3" {
+  network_security_group_id = oci_core_network_security_group.sg.id
+  protocol                  = "all"
+  direction                 = "EGRESS"
+  destination               = "0.0.0.0/0"
+  stateless                 = false
+  destination_type          = "CIDR_BLOCK"
+}
