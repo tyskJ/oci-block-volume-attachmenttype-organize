@@ -67,19 +67,33 @@ OCI Block Volume のアタッチメントを整理する
   region = "ap-tokyo-1"
   EOF
 
-2. *Terraform* 初期化
+2. 変数ファイル作成
+---------------------------------------------------------------------
+
+.. note::
+
+  * *envs* フォルダ配下に作成すること
+
+.. code-block:: bash
+
+  cat <<EOF > oci.tfvars
+  compartment_id = "デプロイ先コンパートメントID"
+  EOF
+
+
+3. *Terraform* 初期化
 ---------------------------------------------------------------------
 .. code-block:: bash
 
   terraform init -backend-config="./config.oci.tfbackend"
 
-3. 事前確認
+4. 事前確認
 ---------------------------------------------------------------------
 .. code-block:: bash
 
   terraform plan
 
-4. デプロイ
+5. デプロイ
 ---------------------------------------------------------------------
 .. code-block:: bash
 
