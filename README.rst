@@ -14,7 +14,9 @@ OCI Block Volume のアタッチメントを整理する
 * 64bit版 Windows 11 Pro
 * Visual Studio Code 1.96.2 (Default Terminal: Git Bash)
 * Git 2.47.1.windows.2
-* tenv v4.1.0
+* Terraform v1.13.5
+* oci cli 3.71.0
+* Python 3.12.0
 
 フォルダ構成
 =====================================================================
