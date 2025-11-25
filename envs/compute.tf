@@ -2,7 +2,7 @@ resource "oci_core_instance" "oracle_boot_paravirtual" {
   display_name        = "oracle-instance-boot-paravirtual"
   compartment_id      = var.compartment_id
   availability_domain = data.oci_identity_availability_domain.ads.name
-  fault_domain        = data.oci_identity_fault_domains.fds[0].name
+  fault_domain        = data.oci_identity_fault_domains.fds.fault_domains[0].name
   shape               = "VM.Standard.E5.Flex"
   shape_config {
     ocpus         = 1
@@ -86,25 +86,26 @@ resource "oci_core_instance" "oracle_boot_paravirtual" {
     nsg_ids = [
       oci_core_network_security_group.sg.id
     ]
-    assign_public_ip          = true
-    assign_private_dns_record = true
-    hostname_label            = "oracleinstancebootparavirtual"
+    assign_public_ip = true
+    hostname_label   = "oracleinstancebootparavirtual"
   }
+  is_pv_encryption_in_transit_enabled = true
   source_details {
     source_type                     = "image"
     source_id                       = "ocid1.image.oc1.ap-tokyo-1.aaaaaaaad4k636kt7umtbknxth6izvbhaqpe4fozzjmovmvjyo7zzyvpt33q"
     boot_volume_size_in_gbs         = "60"
+    boot_volume_vpus_per_gb         = "10"
     is_preserve_boot_volume_enabled = false
     # kms_key_id                      = null
   }
-  launch_options {
-    boot_volume_type                    = "PARAVIRTUALIZED"
-    firmware                            = "UEFI_64"
-    is_consistent_volume_naming_enabled = true
-    is_pv_encryption_in_transit_enabled = true
-    network_type                        = "PARAVIRTUALIZED"
-    remote_data_volume_type             = "PARAVIRTUALIZED"
-  }
+  # launch_options {
+  #   boot_volume_type                    = "PARAVIRTUALIZED"
+  #   # firmware                            = "UEFI_64"
+  #   is_consistent_volume_naming_enabled = true
+  #   is_pv_encryption_in_transit_enabled = true
+  #   # network_type                        = "PARAVIRTUALIZED"
+  #   # remote_data_volume_type             = "PARAVIRTUALIZED"
+  # }
   metadata = {
     ssh_authorized_keys = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDccSn9zM/CFZAwXrxR4Gx/7AGXEZ60th7fLHHVFz6EA7S2DFvuoO/y2LXvbpVBDEpbS2aqS/QbE7vNkVEsPlQGUzeWtNy95TWqAYPZgW5vwjxzvmHH8UMN7sDT8bblkiyHFmixf92nhEXUQx32UDCsKWDv4TvKDoue28zXZ8yz01Poz741g0H1BlfOfPbrpl2yjYFuPGScm2NXdEjND8PFVJxIg0GLUpZuxaxPZj8Z92/ROM+g6u3g+ACYR7Vx9NNiG9IP8Du5YJu9wPvi486c4b1R4I0z/yGwodv3h1mmtN9/jQOX6lJRuK2zIIZ+GVIdL+VEyf23h/RWaDbAXD9r ssh-key-2025-11-20"
   }
