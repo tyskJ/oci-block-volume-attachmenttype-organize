@@ -12,6 +12,26 @@ resource "oci_core_instance" "oracle" {
     is_management_disabled   = false
     is_monitoring_disabled   = false
     plugins_config {
+      desired_state = "ENABLED"
+      name          = "Custom Logs Monitoring"
+    }
+    plugins_config {
+      desired_state = "ENABLED"
+      name          = "Compute Instance Run Command"
+    }
+    plugins_config {
+      desired_state = "ENABLED"
+      name          = "Compute Instance Monitoring"
+    }
+    plugins_config {
+      desired_state = "ENABLED"
+      name          = "Cloud Guard Workload Protection"
+    }
+    plugins_config {
+      desired_state = "ENABLED"
+      name          = "Block Volume Management"
+    }
+    plugins_config {
       desired_state = "DISABLED"
       name          = "WebLogic Management Service"
     }
@@ -36,20 +56,8 @@ resource "oci_core_instance" "oracle" {
       name          = "Fleet Application Management Service"
     }
     plugins_config {
-      desired_state = "ENABLED"
-      name          = "Custom Logs Monitoring"
-    }
-    plugins_config {
       desired_state = "DISABLED"
       name          = "Compute RDMA GPU Monitoring"
-    }
-    plugins_config {
-      desired_state = "ENABLED"
-      name          = "Compute Instance Run Command"
-    }
-    plugins_config {
-      desired_state = "ENABLED"
-      name          = "Compute Instance Monitoring"
     }
     plugins_config {
       desired_state = "DISABLED"
@@ -58,14 +66,6 @@ resource "oci_core_instance" "oracle" {
     plugins_config {
       desired_state = "DISABLED"
       name          = "Compute HPC RDMA Authentication"
-    }
-    plugins_config {
-      desired_state = "ENABLED"
-      name          = "Cloud Guard Workload Protection"
-    }
-    plugins_config {
-      desired_state = "ENABLED"
-      name          = "Block Volume Management"
     }
     plugins_config {
       desired_state = "DISABLED"
