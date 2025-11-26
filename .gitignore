@@ -41,3 +41,4 @@ terraform.rc
 **/*.tfbackend
 **/.terraform.lock.hcl
 tmp.tf
+**/.key/*
