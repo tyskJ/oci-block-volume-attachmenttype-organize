@@ -1,3 +1,6 @@
+/************************************************************
+Private Key
+************************************************************/
 resource "tls_private_key" "ssh_keygen" {
   algorithm = "RSA"
   rsa_bits  = 4096
@@ -9,6 +12,9 @@ resource "local_sensitive_file" "private_key" {
   file_permission = "0600"
 }
 
+/************************************************************
+Compute Paravirtual
+************************************************************/
 resource "oci_core_instance" "oracle_boot_paravirtual" {
   display_name        = "oracle-instance-boot-paravirtual"
   compartment_id      = var.compartment_id
@@ -114,6 +120,9 @@ resource "oci_core_instance" "oracle_boot_paravirtual" {
   }
 }
 
+/************************************************************
+Compute iscsi
+************************************************************/
 resource "oci_core_instance" "oracle_boot_iscsi" {
   display_name        = "oracle-instance-boot-iscsi"
   compartment_id      = var.compartment_id

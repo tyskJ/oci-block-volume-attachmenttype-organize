@@ -1,3 +1,6 @@
+/************************************************************
+VCN
+************************************************************/
 resource "oci_core_vcn" "vcn" {
   compartment_id = var.compartment_id
   cidr_block     = "10.0.0.0/16"
@@ -5,12 +8,18 @@ resource "oci_core_vcn" "vcn" {
   dns_label      = "vcn"
 }
 
+/************************************************************
+Security List
+************************************************************/
 resource "oci_core_security_list" "sl" {
   compartment_id = var.compartment_id
   vcn_id         = oci_core_vcn.vcn.id
   display_name   = "nothing-security-list"
 }
 
+/************************************************************
+Subnet
+************************************************************/
 resource "oci_core_subnet" "public" {
   compartment_id             = var.compartment_id
   vcn_id                     = oci_core_vcn.vcn.id
@@ -22,12 +31,18 @@ resource "oci_core_subnet" "public" {
   prohibit_public_ip_on_vnic = false
 }
 
+/************************************************************
+Internet Gateway
+************************************************************/
 resource "oci_core_internet_gateway" "igw" {
   compartment_id = var.compartment_id
   vcn_id         = oci_core_vcn.vcn.id
   display_name   = "igw"
 }
 
+/************************************************************
+Route Table
+************************************************************/
 resource "oci_core_route_table" "rtb" {
   compartment_id = var.compartment_id
   vcn_id         = oci_core_vcn.vcn.id
@@ -44,6 +59,9 @@ resource "oci_core_route_table_attachment" "attachment" {
   route_table_id = oci_core_route_table.rtb.id
 }
 
+/************************************************************
+Network Security Group
+************************************************************/
 resource "oci_core_network_security_group" "sg" {
   compartment_id = var.compartment_id
   vcn_id         = oci_core_vcn.vcn.id
