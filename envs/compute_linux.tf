@@ -118,4 +118,7 @@ resource "oci_core_instance" "oracle" {
   metadata = {
     ssh_authorized_keys = tls_private_key.ssh_keygen.public_key_openssh
   }
+  defined_tags = {
+    format("%s.%s", oci_identity_tag_namespace.namespace_common.name, oci_identity_tag_default.default_system.tag_definition_name) = oci_identity_tag_default.default_system.value
+  }
 }
