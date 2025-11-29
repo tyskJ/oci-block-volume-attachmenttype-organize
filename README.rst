@@ -124,6 +124,7 @@ OCI Block Volume のアタッチメントを整理する
 リファレンス
 ---------------------------------------------------------------------
 * `Backend block configuration overview <https://developer.hashicorp.com/terraform/language/backend#partial-configuration>`_
+* `All Image Families - Oracle Cloud Infrastructure Documentation/Images <https://docs.oracle.com/en-us/iaas/images/>`_
 
 ブログ
 ---------------------------------------------------------------------
