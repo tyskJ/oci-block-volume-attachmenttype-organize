@@ -11,4 +11,8 @@ provider "oci" {
   auth                = "SecurityToken"
   config_file_profile = "DEV-ADMIN"
   region              = "ap-tokyo-1"
+  ignore_defined_tags = [
+    "Oracle-Tags.CreatedBy",
+    "Oracle-Tags.CreatedOn"
+  ]
 }
