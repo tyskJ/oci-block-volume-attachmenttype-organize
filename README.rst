@@ -129,6 +129,7 @@ OCI Block Volume のアタッチメントを整理する
 * `iSCSIでアタッチされたブロック・ボリュームへの接続 - Oracle Cloud Infrastructureドキュメント <https://docs.oracle.com/ja-jp/iaas/Content/Block/Tasks/connectingtoavolume_topic-Connecting_to_iSCSIAttached_Volumes.htm>`_
 * `自動的に再起動するためのLinux iSCSIサービスの更新 - Oracle Cloud Infrastructureドキュメント <https://docs.oracle.com/ja-jp/iaas/Content/Compute/Tasks/updatingiscsidservice.htm>`_
 * `ブロック・ボリューム管理プラグインの有効化 - Oracle Cloud Infrastructureドキュメント <https://docs.oracle.com/ja-jp/iaas/Content/Block/Tasks/enablingblockvolumemanagementplugin.htm>`_
+* `タグおよびタグ・ネームスペースの概念 - Oracle Cloud Infrastructureドキュメント <https://docs.oracle.com/ja-jp/iaas/Content/Tagging/Tasks/managingtagsandtagnamespaces.htm#Who>`_
 
 ブログ
 ---------------------------------------------------------------------
