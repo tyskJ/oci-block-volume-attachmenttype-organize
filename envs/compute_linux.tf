@@ -109,7 +109,7 @@ resource "oci_core_instance" "oracle" {
   is_pv_encryption_in_transit_enabled = true
   source_details {
     source_type                     = "image"
-    source_id                       = "ocid1.image.oc1.ap-tokyo-1.aaaaaaaad4k636kt7umtbknxth6izvbhaqpe4fozzjmovmvjyo7zzyvpt33q"
+    source_id                       = data.oci_core_images.oracle_supported_image.images[0].id
     boot_volume_size_in_gbs         = "60"
     boot_volume_vpus_per_gb         = "10"
     is_preserve_boot_volume_enabled = false
