@@ -9,6 +9,7 @@
     ├── compute_linux.tf      OCI compute(Oracle Linux)定義ファイル
     ├── compute_windows.tf    OCI compute(Windows Server)定義ファイル
     ├── data.tf               外部データソース定義ファイル
+    ├── iam.tf                IAM定義ファイル
     ├── locals.tf             ローカル変数定義ファイル
     ├── outputs.tf            リソース戻り値定義ファイル
     ├── providers.tf          プロバイダー定義ファイル
