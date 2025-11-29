@@ -3,7 +3,6 @@
 =====================================================================
 OCI Block Volume のアタッチメントを整理する
 =====================================================================
-* `詳細 <>`_
 
 =====================================================================
 デプロイ - Terraform -
@@ -123,8 +122,13 @@ OCI Block Volume のアタッチメントを整理する
 =====================================================================
 リファレンス
 ---------------------------------------------------------------------
+* `terraform_data resource reference <https://developer.hashicorp.com/terraform/language/resources/terraform-data>`_
 * `Backend block configuration overview <https://developer.hashicorp.com/terraform/language/backend#partial-configuration>`_
 * `All Image Families - Oracle Cloud Infrastructure Documentation/Images <https://docs.oracle.com/en-us/iaas/images/>`_
+* `ブロック・ボリュームへの接続 - Oracle Cloud Infrastructureドキュメント <https://docs.oracle.com/ja-jp/iaas/Content/Block/Tasks/connectingtoavolume.htm>`_
+* `iSCSIでアタッチされたブロック・ボリュームへの接続 - Oracle Cloud Infrastructureドキュメント <https://docs.oracle.com/ja-jp/iaas/Content/Block/Tasks/connectingtoavolume_topic-Connecting_to_iSCSIAttached_Volumes.htm>`_
+* `自動的に再起動するためのLinux iSCSIサービスの更新 - Oracle Cloud Infrastructureドキュメント <https://docs.oracle.com/ja-jp/iaas/Content/Compute/Tasks/updatingiscsidservice.htm>`_
+* `ブロック・ボリューム管理プラグインの有効化 - Oracle Cloud Infrastructureドキュメント <https://docs.oracle.com/ja-jp/iaas/Content/Block/Tasks/enablingblockvolumemanagementplugin.htm>`_
 
 ブログ
 ---------------------------------------------------------------------
@@ -132,3 +136,7 @@ OCI Block Volume のアタッチメントを整理する
 * `Terraformでmoduleを使わずに複数環境を構築して感じた利点 - SpeakerDeck <https://speakerdeck.com/shonansurvivors/building-multiple-environments-without-using-modules-in-terraform>`_
 * `個人的備忘録：Terraformディレクトリ整理の個人メモ（ファイル分割編） - Qiita <https://qiita.com/free-honda/items/5484328d5b52326ed87e>`_
 * `Terraformの auto.tfvars を使うと、環境管理がずっと楽になる話 - note <https://note.com/minato_kame/n/neb271c81e0e2>`_
+* `Terraform v1.9 では null_resource を安全に terraform_data に置き換えることができる -Zenn <https://zenn.dev/terraform_jp/articles/tf-null-resource-to-terraform-data>`_
+* `【OCI】ブロックボリュームのアタッチ手順とアタッチタイプについて！ - techblog APC <https://techblog.ap-com.co.jp/entry/2025/06/12/155721>`_
+* `Oracle Cloud Infrastructureブロック・ボリューム・バックアップDeep Dive - Qiita <https://qiita.com/yamada-hakase/items/c379acacba1db1bd64d9>`_
+* `AWS/Azure 経験者がはじめる OCI 入門 ～ Compute編 ～ - Qiita <https://qiita.com/Skogkatter112/items/540da610c7938cb74b55>`_
