@@ -78,6 +78,7 @@ OCI Block Volume のアタッチメントを整理する
 .. code-block:: bash
 
   cat <<EOF > oci.auto.tfvars
+  tenancy_id = "テナンシID"
   compartment_id = "デプロイ先コンパートメントID"
   source_ip = "接続元IPアドレス(CIDR形式)"
   EOF
