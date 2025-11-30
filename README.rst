@@ -23,9 +23,9 @@ OCI Block Volume のアタッチメントを整理する
 
 前提条件
 =====================================================================
-* デプロイするコンパートメントに対し ``manage all-resources`` を付与した IAM グループに所属する IAM ユーザーが作成されていること
+* テナンシに対し ``manage all-resources`` を付与した IAM グループに所属する IAM ユーザーが作成されていること
 * 実作業は *envs* フォルダ配下の各環境フォルダで実施すること
-* 以下コマンドを実行し、*DEV-ADMIN* プロファイルを作成していること (デフォルトリージョンは *ap-tokyo-1* )
+* 以下コマンドを実行し、*ADMIN* プロファイルを作成していること (デフォルトリージョンは *ap-tokyo-1* )
 
 .. code-block:: bash
 
@@ -45,8 +45,12 @@ OCI Block Volume のアタッチメントを整理する
 
   oci os bucket create \
   --compartment-id <デプロイ先コンパートメントID> \
-  --name <任意のバケット名> \
-  --profile DEV-ADMIN --auth security_token
+  --name terraform-working \
+  --profile ADMIN --auth security_token
+
+.. note::
+
+  * バケット名は、テナンシかつリージョン内で一意であれば作成できます
 
 
 実作業 - ローカル -
@@ -61,10 +65,10 @@ OCI Block Volume のアタッチメントを整理する
 .. code-block:: bash
 
   cat <<EOF > config.oci.tfbackend
-  bucket = "作成したバケット名"
+  bucket = "terraform-working"
   namespace = "テナンシに一意に付与されたネームスペース"
   auth = "SecurityToken"
-  config_file_profile = "DEV-ADMIN"
+  config_file_profile = "ADMIN"
   region = "ap-tokyo-1"
   EOF
 
@@ -115,9 +119,9 @@ OCI Block Volume のアタッチメントを整理する
 .. code-block:: bash
 
   oci os bucket delete \
-  --bucket-name <作成したバケット名> \
+  --bucket-name terraform-working \
   --force --empty \
-  --profile DEV-ADMIN --auth security_token
+  --profile ADMIN --auth security_token
 
 参考資料
 =====================================================================
