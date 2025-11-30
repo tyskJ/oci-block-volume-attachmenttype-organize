@@ -1,15 +1,15 @@
 /************************************************************
-Tag NameSpace & Tag Key Values
+Tag NameSpace (Compute)
 ************************************************************/
-resource "oci_identity_tag_namespace" "namespace_compute" {
+resource "oci_identity_tag_namespace" "compute" {
   compartment_id = var.compartment_id
   name           = "Compute"
   description    = "NameSpace For Compute"
   is_retired     = false
 }
 
-resource "oci_identity_tag" "namespace_compute_cloudagent" {
-  tag_namespace_id = oci_identity_tag_namespace.namespace_compute.id
+resource "oci_identity_tag" "key_cloudagent" {
+  tag_namespace_id = oci_identity_tag_namespace.compute.id
   name             = "CloudAgent"
   description      = "CloudAgent is installed"
   is_cost_tracking = false
@@ -20,31 +20,68 @@ resource "oci_identity_tag" "namespace_compute_cloudagent" {
   }
 }
 
-resource "oci_identity_tag_namespace" "namespace_common" {
+/************************************************************
+Tag NameSpace (Common)
+************************************************************/
+resource "oci_identity_tag_namespace" "common" {
   compartment_id = var.compartment_id
   name           = "Common"
   description    = "NameSpace for Common"
   is_retired     = false
 }
 
-resource "oci_identity_tag" "namespace_common_system" {
-  tag_namespace_id = oci_identity_tag_namespace.namespace_common.id
+resource "oci_identity_tag" "key_system" {
+  tag_namespace_id = oci_identity_tag_namespace.common.id
   name             = "System"
   description      = "Defined System"
   is_cost_tracking = true
   is_retired       = false
+}
+
+resource "oci_identity_tag" "key_env" {
+  tag_namespace_id = oci_identity_tag_namespace.common.id
+  name             = "Env"
+  description      = "Defined Environment"
+  is_cost_tracking = true
+  is_retired       = false
   validator {
     validator_type = "ENUM"
-    values         = ["oci-block-volume-attachment-organize"]
+    values         = ["prd", "dev"]
+  }
+}
+
+resource "oci_identity_tag" "key_managedbyterraform" {
+  tag_namespace_id = oci_identity_tag_namespace.common.id
+  name             = "ManagedByTerraform"
+  description      = "Defined Managed By Terraform"
+  is_cost_tracking = true
+  is_retired       = false
+  validator {
+    validator_type = "ENUM"
+    values         = ["true", "false"]
   }
 }
 
 /************************************************************
 Default Tag
 ************************************************************/
-resource "oci_identity_tag_default" "default_system" {
+resource "oci_identity_tag_default" "key_system" {
   compartment_id    = var.compartment_id
-  tag_definition_id = oci_identity_tag.namespace_common_system.id
-  value             = oci_identity_tag.namespace_common_system.validator[0].values[0]
+  tag_definition_id = oci_identity_tag.key_system.id
+  value             = "oci-block-volume-attachment-organize"
+  is_required       = false
+}
+
+resource "oci_identity_tag_default" "key_env" {
+  compartment_id    = var.compartment_id
+  tag_definition_id = oci_identity_tag.key_env.id
+  value             = "prd"
+  is_required       = true
+}
+
+resource "oci_identity_tag_default" "key_managedbyterraform" {
+  compartment_id    = var.compartment_id
+  tag_definition_id = oci_identity_tag.key_managedbyterraform.id
+  value             = "true"
   is_required       = true
 }
