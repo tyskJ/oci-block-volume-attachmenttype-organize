@@ -44,7 +44,7 @@ OCI Block Volume のアタッチメントタイプを整理する
 .. code-block:: bash
 
   oci os bucket create \
-  --compartment-id <ルートコンパートメントID> \
+  --compartment-id <ルートコンパートメントOCID> \
   --name terraform-working \
   --profile ADMIN --auth security_token
 
@@ -82,8 +82,7 @@ OCI Block Volume のアタッチメントタイプを整理する
 .. code-block:: bash
 
   cat <<EOF > oci.auto.tfvars
-  tenancy_id = "テナンシID"
-  compartment_id = "デプロイ先コンパートメントID"
+  tenancy_id = "テナンシOCID(=ルートコンパートメントOCID)"
   source_ip = "接続元IPアドレス(CIDR形式)"
   EOF
 
