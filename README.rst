@@ -1,7 +1,7 @@
 .. image:: ./doc/001samune.png
 
 =====================================================================
-OCI Block Volume のアタッチメントを整理する
+OCI Block Volume のアタッチメントタイプを整理する
 =====================================================================
 
 =====================================================================
@@ -23,7 +23,7 @@ OCI Block Volume のアタッチメントを整理する
 
 前提条件
 =====================================================================
-* テナンシに対し ``manage all-resources`` を付与した IAM グループに所属する IAM ユーザーが作成されていること
+* ``manage all-resources IN TENANCY`` を付与した IAM グループに所属する IAM ユーザーが作成されていること
 * 実作業は *envs* フォルダ配下の各環境フォルダで実施すること
 * 以下コマンドを実行し、*ADMIN* プロファイルを作成していること (デフォルトリージョンは *ap-tokyo-1* )
 
@@ -44,7 +44,7 @@ OCI Block Volume のアタッチメントを整理する
 .. code-block:: bash
 
   oci os bucket create \
-  --compartment-id <デプロイ先コンパートメントID> \
+  --compartment-id <ルートコンパートメントID> \
   --name terraform-working \
   --profile ADMIN --auth security_token
 
