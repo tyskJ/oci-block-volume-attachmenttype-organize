@@ -44,3 +44,16 @@ resource "oci_identity_policy" "compute_for_agent_runcommand" {
     format("%s.%s", oci_identity_tag_namespace.common.name, oci_identity_tag_default.key_managedbyterraform.tag_definition_name) = "true"
   }
 }
+
+resource "oci_identity_policy" "compute_for_agent_logmoni" {
+  compartment_id = oci_identity_compartment.workload.id
+  description    = "OCI Compute Policy for CloudAgent Custom Log Monitoring"
+  name           = "compute-cloudagent-log-monitoring-policy"
+  statements = [
+    format("allow dynamic-group %s to use log-content in compartment %s", oci_identity_dynamic_group.compute.name, oci_identity_compartment.workload.name)
+  ]
+  defined_tags = {
+    format("%s.%s", oci_identity_tag_namespace.common.name, oci_identity_tag_default.key_env.tag_definition_name)                = "prd"
+    format("%s.%s", oci_identity_tag_namespace.common.name, oci_identity_tag_default.key_managedbyterraform.tag_definition_name) = "true"
+  }
+}
