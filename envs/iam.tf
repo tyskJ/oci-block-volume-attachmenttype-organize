@@ -1,7 +1,7 @@
 /************************************************************
 Dynamic Group - Compute
 ************************************************************/
-resource "oci_identity_dynamic_group" "test" {
+resource "oci_identity_dynamic_group" "compute" {
   compartment_id = var.tenancy_ocid
   name           = "Compute_Dynamic_Group"
   description    = "Compute Dynamic Group"
@@ -18,3 +18,6 @@ resource "oci_identity_dynamic_group" "test" {
 /************************************************************
 IAM Policy - Compute
 ************************************************************/
+# resource "oci_identity_policy" "" {
+  
+# }
