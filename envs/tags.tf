@@ -2,7 +2,7 @@
 Tag NameSpace (Compute)
 ************************************************************/
 resource "oci_identity_tag_namespace" "compute" {
-  compartment_id = var.compartment_id
+  compartment_id = oci_identity_compartment.workload.id
   name           = "Compute"
   description    = "NameSpace For Compute"
   is_retired     = false
@@ -24,7 +24,7 @@ resource "oci_identity_tag" "key_cloudagent" {
 Tag NameSpace (Common)
 ************************************************************/
 resource "oci_identity_tag_namespace" "common" {
-  compartment_id = var.compartment_id
+  compartment_id = oci_identity_compartment.workload.id
   name           = "Common"
   description    = "NameSpace for Common"
   is_retired     = false
@@ -66,21 +66,21 @@ resource "oci_identity_tag" "key_managedbyterraform" {
 Default Tag
 ************************************************************/
 resource "oci_identity_tag_default" "key_system" {
-  compartment_id    = var.compartment_id
+  compartment_id    = oci_identity_compartment.workload.id
   tag_definition_id = oci_identity_tag.key_system.id
   value             = "oci-block-volume-attachment-organize"
   is_required       = false
 }
 
 resource "oci_identity_tag_default" "key_env" {
-  compartment_id    = var.compartment_id
+  compartment_id    = oci_identity_compartment.workload.id
   tag_definition_id = oci_identity_tag.key_env.id
   value             = "prd"
   is_required       = true
 }
 
 resource "oci_identity_tag_default" "key_managedbyterraform" {
-  compartment_id    = var.compartment_id
+  compartment_id    = oci_identity_compartment.workload.id
   tag_definition_id = oci_identity_tag.key_managedbyterraform.id
   value             = "true"
   is_required       = true

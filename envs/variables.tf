@@ -1,8 +1,4 @@
-variable "tenancy_id" {
-  type = string
-}
-
-variable "compartment_id" {
+variable "tenancy_ocid" {
   type = string
 }
 

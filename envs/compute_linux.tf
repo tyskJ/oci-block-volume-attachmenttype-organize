@@ -17,7 +17,7 @@ Compute (Oracle Linux)
 ************************************************************/
 resource "oci_core_instance" "oracle" {
   display_name        = "oracle-instance"
-  compartment_id      = var.compartment_id
+  compartment_id      = oci_identity_compartment.workload.id
   availability_domain = data.oci_identity_availability_domain.ads.name
   fault_domain        = data.oci_identity_fault_domains.fds.fault_domains[0].name
   shape               = "VM.Standard.E5.Flex"
