@@ -23,8 +23,8 @@ resource "oci_identity_policy" "compute_for_agent_volmng" {
   description    = "OCI Compute Policy for CloudAgent Volume Management"
   name           = "compute-cloudagent-volume-management-policy"
   statements = [
-    format("allow dynamic-group %s to use instances in compartment %s", oci_identity_dynamic_group.compute.id, oci_identity_compartment.workload.name),
-    format("allow dynamic-group %s to use volume-attachments in compartment %s", oci_identity_dynamic_group.compute.id, oci_identity_compartment.workload.name)
+    format("allow dynamic-group %s to use instances in compartment %s", oci_identity_dynamic_group.compute.name, oci_identity_compartment.workload.name),
+    format("allow dynamic-group %s to use volume-attachments in compartment %s", oci_identity_dynamic_group.compute.name, oci_identity_compartment.workload.name)
   ]
   defined_tags = {
     format("%s.%s", oci_identity_tag_namespace.common.name, oci_identity_tag_default.key_env.tag_definition_name)                = "prd"
@@ -37,7 +37,7 @@ resource "oci_identity_policy" "compute_for_agent_runcommand" {
   description    = "OCI Compute Policy for CloudAgent RunCommand"
   name           = "compute-cloudagent-runcommand-policy"
   statements = [
-    format("allow dynamic-group %s to use instance-agent-command-execution-family in compartment %s", oci_identity_dynamic_group.compute.id, oci_identity_compartment.workload.name)
+    format("allow dynamic-group %s to use instance-agent-command-execution-family in compartment %s", oci_identity_dynamic_group.compute.name, oci_identity_compartment.workload.name)
   ]
   defined_tags = {
     format("%s.%s", oci_identity_tag_namespace.common.name, oci_identity_tag_default.key_env.tag_definition_name)                = "prd"
