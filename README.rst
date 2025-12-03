@@ -82,7 +82,7 @@ OCI Block Volume のアタッチメントタイプを整理する
 .. code-block:: bash
 
   cat <<EOF > oci.auto.tfvars
-  tenancy_id = "テナンシOCID(=ルートコンパートメントOCID)"
+  tenancy_ocid = "テナンシOCID(=ルートコンパートメントOCID)"
   source_ip = "接続元IPアドレス(CIDR形式)"
   EOF
 
