@@ -15,227 +15,227 @@ resource "local_sensitive_file" "private_key" {
 /************************************************************
 Compute (Oracle Linux) - No SLA
 ************************************************************/
-##### Instance
-resource "oci_core_instance" "oracle_no_sla" {
-  display_name        = "oracle-instance-no-sla"
-  compartment_id      = oci_identity_compartment.workload.id
-  availability_domain = data.oci_identity_availability_domain.ads.name
-  fault_domain        = data.oci_identity_fault_domains.fds.fault_domains[0].name
-  shape               = "VM.Standard.E5.Flex"
-  shape_config {
-    ocpus         = 1
-    memory_in_gbs = 12
-  }
-  instance_options {
-    are_legacy_imds_endpoints_disabled = false
-  }
-  availability_config {
-    is_live_migration_preferred = false
-    recovery_action             = "RESTORE_INSTANCE"
-  }
-  agent_config {
-    are_all_plugins_disabled = false
-    is_management_disabled   = false
-    is_monitoring_disabled   = false
-    plugins_config {
-      desired_state = "ENABLED"
-      name          = "Custom Logs Monitoring"
-    }
-    plugins_config {
-      desired_state = "ENABLED"
-      name          = "Compute Instance Run Command"
-    }
-    plugins_config {
-      desired_state = "ENABLED"
-      name          = "Compute Instance Monitoring"
-    }
-    plugins_config {
-      desired_state = "ENABLED"
-      name          = "Cloud Guard Workload Protection"
-    }
-    plugins_config {
-      desired_state = "ENABLED"
-      name          = "Block Volume Management"
-    }
-    plugins_config {
-      desired_state = "DISABLED"
-      name          = "WebLogic Management Service"
-    }
-    plugins_config {
-      desired_state = "DISABLED"
-      name          = "Vulnerability Scanning"
-    }
-    plugins_config {
-      desired_state = "DISABLED"
-      name          = "Oracle Java Management Service"
-    }
-    plugins_config {
-      desired_state = "DISABLED"
-      name          = "OS Management Hub Agent"
-    }
-    plugins_config {
-      desired_state = "DISABLED"
-      name          = "Management Agent"
-    }
-    plugins_config {
-      desired_state = "DISABLED"
-      name          = "Fleet Application Management Service"
-    }
-    plugins_config {
-      desired_state = "DISABLED"
-      name          = "Compute RDMA GPU Monitoring"
-    }
-    plugins_config {
-      desired_state = "DISABLED"
-      name          = "Compute HPC RDMA Auto-Configuration"
-    }
-    plugins_config {
-      desired_state = "DISABLED"
-      name          = "Compute HPC RDMA Authentication"
-    }
-    plugins_config {
-      desired_state = "DISABLED"
-      name          = "Bastion"
-    }
-  }
-  create_vnic_details {
-    display_name = "oracle-instance-no-sla-vnic"
-    subnet_id    = oci_core_subnet.public.id
-    nsg_ids = [
-      oci_core_network_security_group.sg.id
-    ]
-    assign_public_ip = true
-    hostname_label   = "oracle-instance-no-sla"
-  }
-  is_pv_encryption_in_transit_enabled = true
-  source_details {
-    source_type                     = "image"
-    source_id                       = data.oci_core_images.oracle_supported_image.images[0].id
-    boot_volume_size_in_gbs         = "50"
-    boot_volume_vpus_per_gb         = "10"
-    is_preserve_boot_volume_enabled = false
-    # kms_key_id                      = null
-  }
-  metadata = {
-    ssh_authorized_keys = tls_private_key.ssh_keygen.public_key_openssh
-  }
-  defined_tags = {
-    format("%s.%s", oci_identity_tag_namespace.common.name, oci_identity_tag_default.key_env.tag_definition_name)                = "prd"
-    format("%s.%s", oci_identity_tag_namespace.common.name, oci_identity_tag_default.key_managedbyterraform.tag_definition_name) = "true"
-    "Compute.CloudAgent"                                                                                                         = "true"
-  }
-}
+# ##### Instance
+# resource "oci_core_instance" "oracle_no_sla" {
+#   display_name        = "oracle-instance-no-sla"
+#   compartment_id      = oci_identity_compartment.workload.id
+#   availability_domain = data.oci_identity_availability_domain.ads.name
+#   fault_domain        = data.oci_identity_fault_domains.fds.fault_domains[0].name
+#   shape               = "VM.Standard.E5.Flex"
+#   shape_config {
+#     ocpus         = 1
+#     memory_in_gbs = 12
+#   }
+#   instance_options {
+#     are_legacy_imds_endpoints_disabled = false
+#   }
+#   availability_config {
+#     is_live_migration_preferred = false
+#     recovery_action             = "RESTORE_INSTANCE"
+#   }
+#   agent_config {
+#     are_all_plugins_disabled = false
+#     is_management_disabled   = false
+#     is_monitoring_disabled   = false
+#     plugins_config {
+#       desired_state = "ENABLED"
+#       name          = "Custom Logs Monitoring"
+#     }
+#     plugins_config {
+#       desired_state = "ENABLED"
+#       name          = "Compute Instance Run Command"
+#     }
+#     plugins_config {
+#       desired_state = "ENABLED"
+#       name          = "Compute Instance Monitoring"
+#     }
+#     plugins_config {
+#       desired_state = "ENABLED"
+#       name          = "Cloud Guard Workload Protection"
+#     }
+#     plugins_config {
+#       desired_state = "ENABLED"
+#       name          = "Block Volume Management"
+#     }
+#     plugins_config {
+#       desired_state = "DISABLED"
+#       name          = "WebLogic Management Service"
+#     }
+#     plugins_config {
+#       desired_state = "DISABLED"
+#       name          = "Vulnerability Scanning"
+#     }
+#     plugins_config {
+#       desired_state = "DISABLED"
+#       name          = "Oracle Java Management Service"
+#     }
+#     plugins_config {
+#       desired_state = "DISABLED"
+#       name          = "OS Management Hub Agent"
+#     }
+#     plugins_config {
+#       desired_state = "DISABLED"
+#       name          = "Management Agent"
+#     }
+#     plugins_config {
+#       desired_state = "DISABLED"
+#       name          = "Fleet Application Management Service"
+#     }
+#     plugins_config {
+#       desired_state = "DISABLED"
+#       name          = "Compute RDMA GPU Monitoring"
+#     }
+#     plugins_config {
+#       desired_state = "DISABLED"
+#       name          = "Compute HPC RDMA Auto-Configuration"
+#     }
+#     plugins_config {
+#       desired_state = "DISABLED"
+#       name          = "Compute HPC RDMA Authentication"
+#     }
+#     plugins_config {
+#       desired_state = "DISABLED"
+#       name          = "Bastion"
+#     }
+#   }
+#   create_vnic_details {
+#     display_name = "oracle-instance-no-sla-vnic"
+#     subnet_id    = oci_core_subnet.public.id
+#     nsg_ids = [
+#       oci_core_network_security_group.sg.id
+#     ]
+#     assign_public_ip = true
+#     hostname_label   = "oracle-instance-no-sla"
+#   }
+#   is_pv_encryption_in_transit_enabled = true
+#   source_details {
+#     source_type                     = "image"
+#     source_id                       = data.oci_core_images.oracle_supported_image.images[0].id
+#     boot_volume_size_in_gbs         = "100"
+#     boot_volume_vpus_per_gb         = "10"
+#     is_preserve_boot_volume_enabled = false
+#     # kms_key_id                      = null
+#   }
+#   metadata = {
+#     ssh_authorized_keys = tls_private_key.ssh_keygen.public_key_openssh
+#   }
+#   defined_tags = {
+#     format("%s.%s", oci_identity_tag_namespace.common.name, oci_identity_tag_default.key_env.tag_definition_name)                = "prd"
+#     format("%s.%s", oci_identity_tag_namespace.common.name, oci_identity_tag_default.key_managedbyterraform.tag_definition_name) = "true"
+#     "Compute.CloudAgent"                                                                                                         = "true"
+#   }
+# }
 
-##### Block Volume
-### For Paravirtualized
-resource "oci_core_volume" "oracle_block_volume_para_no_sla" {
-  display_name        = "oracle-volume-paravirtualized-no-sla"
-  compartment_id      = oci_identity_compartment.workload.id
-  availability_domain = data.oci_identity_availability_domain.ads.name
-  size_in_gbs         = "50"
-  vpus_per_gb         = "10"
-  defined_tags = {
-    format("%s.%s", oci_identity_tag_namespace.common.name, oci_identity_tag_default.key_env.tag_definition_name)                = "prd"
-    format("%s.%s", oci_identity_tag_namespace.common.name, oci_identity_tag_default.key_managedbyterraform.tag_definition_name) = "true"
-  }
-  is_auto_tune_enabled = true
-  autotune_policies {
-    autotune_type = "DETACHED_VOLUME"
-    # max_vpus_per_gb = null
-  }
-  autotune_policies {
-    autotune_type   = "PERFORMANCE_BASED"
-    max_vpus_per_gb = "20"
-  }
-  is_reservations_enabled = false
-  #   block_volume_replicas_deletion = null
-  #   cluster_placement_group_id     = null
-  #   freeform_tags           = {}
-  #   kms_key_id              = null
-  #   xrc_kms_key_id          = null
-  #   volume_backup_id        = null
-}
+# ##### Block Volume
+# ### For Paravirtualized
+# resource "oci_core_volume" "oracle_block_volume_para_no_sla" {
+#   display_name        = "oracle-volume-paravirtualized-no-sla"
+#   compartment_id      = oci_identity_compartment.workload.id
+#   availability_domain = data.oci_identity_availability_domain.ads.name
+#   size_in_gbs         = "50"
+#   vpus_per_gb         = "10"
+#   defined_tags = {
+#     format("%s.%s", oci_identity_tag_namespace.common.name, oci_identity_tag_default.key_env.tag_definition_name)                = "prd"
+#     format("%s.%s", oci_identity_tag_namespace.common.name, oci_identity_tag_default.key_managedbyterraform.tag_definition_name) = "true"
+#   }
+#   is_auto_tune_enabled = true
+#   autotune_policies {
+#     autotune_type = "DETACHED_VOLUME"
+#     # max_vpus_per_gb = null
+#   }
+#   autotune_policies {
+#     autotune_type   = "PERFORMANCE_BASED"
+#     max_vpus_per_gb = "20"
+#   }
+#   is_reservations_enabled = false
+#   #   block_volume_replicas_deletion = null
+#   #   cluster_placement_group_id     = null
+#   #   freeform_tags           = {}
+#   #   kms_key_id              = null
+#   #   xrc_kms_key_id          = null
+#   #   volume_backup_id        = null
+# }
 
-resource "oci_core_volume_attachment" "attach_oracle_block_volume_para_no_sla" {
-  attachment_type                     = "paravirtualized"
-  instance_id                         = oci_core_instance.oracle_no_sla.id
-  volume_id                           = oci_core_volume.oracle_block_volume_para_no_sla.id
-  is_pv_encryption_in_transit_enabled = true
-  display_name                        = "attach-oracle-volume-paravirtualized-no-sla"
-}
+# resource "oci_core_volume_attachment" "attach_oracle_block_volume_para_no_sla" {
+#   attachment_type                     = "paravirtualized"
+#   instance_id                         = oci_core_instance.oracle_no_sla.id
+#   volume_id                           = oci_core_volume.oracle_block_volume_para_no_sla.id
+#   is_pv_encryption_in_transit_enabled = true
+#   display_name                        = "attach-oracle-volume-paravirtualized-no-sla"
+# }
 
-### For ISCSI (Attach by Agent)
-resource "oci_core_volume" "oracle_block_volume_iscsi_by_agent_no_sla" {
-  display_name        = "oracle-volume-iscsi-by-agent-no-sla"
-  compartment_id      = oci_identity_compartment.workload.id
-  availability_domain = data.oci_identity_availability_domain.ads.name
-  size_in_gbs         = "50"
-  vpus_per_gb         = "10"
-  defined_tags = {
-    format("%s.%s", oci_identity_tag_namespace.common.name, oci_identity_tag_default.key_env.tag_definition_name)                = "prd"
-    format("%s.%s", oci_identity_tag_namespace.common.name, oci_identity_tag_default.key_managedbyterraform.tag_definition_name) = "true"
-  }
-  is_auto_tune_enabled = true
-  autotune_policies {
-    autotune_type = "DETACHED_VOLUME"
-    # max_vpus_per_gb = null
-  }
-  autotune_policies {
-    autotune_type   = "PERFORMANCE_BASED"
-    max_vpus_per_gb = "20"
-  }
-  is_reservations_enabled = false
-  #   block_volume_replicas_deletion = null
-  #   cluster_placement_group_id     = null
-  #   freeform_tags           = {}
-  #   kms_key_id              = null
-  #   xrc_kms_key_id          = null
-  #   volume_backup_id        = null
-}
+# ### For ISCSI (Attach by Agent)
+# resource "oci_core_volume" "oracle_block_volume_iscsi_by_agent_no_sla" {
+#   display_name        = "oracle-volume-iscsi-by-agent-no-sla"
+#   compartment_id      = oci_identity_compartment.workload.id
+#   availability_domain = data.oci_identity_availability_domain.ads.name
+#   size_in_gbs         = "50"
+#   vpus_per_gb         = "10"
+#   defined_tags = {
+#     format("%s.%s", oci_identity_tag_namespace.common.name, oci_identity_tag_default.key_env.tag_definition_name)                = "prd"
+#     format("%s.%s", oci_identity_tag_namespace.common.name, oci_identity_tag_default.key_managedbyterraform.tag_definition_name) = "true"
+#   }
+#   is_auto_tune_enabled = true
+#   autotune_policies {
+#     autotune_type = "DETACHED_VOLUME"
+#     # max_vpus_per_gb = null
+#   }
+#   autotune_policies {
+#     autotune_type   = "PERFORMANCE_BASED"
+#     max_vpus_per_gb = "20"
+#   }
+#   is_reservations_enabled = false
+#   #   block_volume_replicas_deletion = null
+#   #   cluster_placement_group_id     = null
+#   #   freeform_tags           = {}
+#   #   kms_key_id              = null
+#   #   xrc_kms_key_id          = null
+#   #   volume_backup_id        = null
+# }
 
-resource "oci_core_volume_attachment" "attach_oracle_block_volume_iscsi_by_agent_no_sla" {
-  attachment_type                   = "iscsi"
-  instance_id                       = oci_core_instance.oracle_no_sla.id
-  volume_id                         = oci_core_volume.oracle_block_volume_iscsi_by_agent_no_sla.id
-  encryption_in_transit_type        = "NONE"
-  display_name                      = "attach-oracle-volume-iscsi-by-agent-no-sla"
-  is_agent_auto_iscsi_login_enabled = true
-}
+# resource "oci_core_volume_attachment" "attach_oracle_block_volume_iscsi_by_agent_no_sla" {
+#   attachment_type                   = "iscsi"
+#   instance_id                       = oci_core_instance.oracle_no_sla.id
+#   volume_id                         = oci_core_volume.oracle_block_volume_iscsi_by_agent_no_sla.id
+#   encryption_in_transit_type        = "NONE"
+#   display_name                      = "attach-oracle-volume-iscsi-by-agent-no-sla"
+#   is_agent_auto_iscsi_login_enabled = true
+# }
 
-### For ISCSI (Attach by Command)
-resource "oci_core_volume" "oracle_block_volume_iscsi_by_command_no_sla" {
-  display_name        = "oracle-volume-iscsi-by-command-no-sla"
-  compartment_id      = oci_identity_compartment.workload.id
-  availability_domain = data.oci_identity_availability_domain.ads.name
-  size_in_gbs         = "50"
-  vpus_per_gb         = "10"
-  defined_tags = {
-    format("%s.%s", oci_identity_tag_namespace.common.name, oci_identity_tag_default.key_env.tag_definition_name)                = "prd"
-    format("%s.%s", oci_identity_tag_namespace.common.name, oci_identity_tag_default.key_managedbyterraform.tag_definition_name) = "true"
-  }
-  is_auto_tune_enabled = true
-  autotune_policies {
-    autotune_type = "DETACHED_VOLUME"
-    # max_vpus_per_gb = null
-  }
-  autotune_policies {
-    autotune_type   = "PERFORMANCE_BASED"
-    max_vpus_per_gb = "20"
-  }
-  is_reservations_enabled = false
-  #   block_volume_replicas_deletion = null
-  #   cluster_placement_group_id     = null
-  #   freeform_tags           = {}
-  #   kms_key_id              = null
-  #   xrc_kms_key_id          = null
-  #   volume_backup_id        = null
-}
+# ### For ISCSI (Attach by Command)
+# resource "oci_core_volume" "oracle_block_volume_iscsi_by_command_no_sla" {
+#   display_name        = "oracle-volume-iscsi-by-command-no-sla"
+#   compartment_id      = oci_identity_compartment.workload.id
+#   availability_domain = data.oci_identity_availability_domain.ads.name
+#   size_in_gbs         = "50"
+#   vpus_per_gb         = "10"
+#   defined_tags = {
+#     format("%s.%s", oci_identity_tag_namespace.common.name, oci_identity_tag_default.key_env.tag_definition_name)                = "prd"
+#     format("%s.%s", oci_identity_tag_namespace.common.name, oci_identity_tag_default.key_managedbyterraform.tag_definition_name) = "true"
+#   }
+#   is_auto_tune_enabled = true
+#   autotune_policies {
+#     autotune_type = "DETACHED_VOLUME"
+#     # max_vpus_per_gb = null
+#   }
+#   autotune_policies {
+#     autotune_type   = "PERFORMANCE_BASED"
+#     max_vpus_per_gb = "20"
+#   }
+#   is_reservations_enabled = false
+#   #   block_volume_replicas_deletion = null
+#   #   cluster_placement_group_id     = null
+#   #   freeform_tags           = {}
+#   #   kms_key_id              = null
+#   #   xrc_kms_key_id          = null
+#   #   volume_backup_id        = null
+# }
 
-resource "oci_core_volume_attachment" "attach_oracle_block_volume_iscsi_by_command_no_sla" {
-  attachment_type                   = "iscsi"
-  instance_id                       = oci_core_instance.oracle_no_sla.id
-  volume_id                         = oci_core_volume.oracle_block_volume_iscsi_by_command_no_sla.id
-  encryption_in_transit_type        = "NONE"
-  display_name                      = "attach-oracle-volume-iscsi-by-command-no-sla"
-  is_agent_auto_iscsi_login_enabled = false
-}
+# resource "oci_core_volume_attachment" "attach_oracle_block_volume_iscsi_by_command_no_sla" {
+#   attachment_type                   = "iscsi"
+#   instance_id                       = oci_core_instance.oracle_no_sla.id
+#   volume_id                         = oci_core_volume.oracle_block_volume_iscsi_by_command_no_sla.id
+#   encryption_in_transit_type        = "NONE"
+#   display_name                      = "attach-oracle-volume-iscsi-by-command-no-sla"
+#   is_agent_auto_iscsi_login_enabled = false
+# }
