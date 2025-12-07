@@ -18,3 +18,13 @@ data "oci_core_images" "oracle_supported_image" {
   sort_order               = "DESC"
   state                    = "AVAILABLE"
 }
+
+data "oci_core_images" "windows_supported_image" {
+  compartment_id           = oci_identity_compartment.workload.id
+  shape                    = "VM.Standard.E5.Flex"
+  operating_system         = "Windows"
+  operating_system_version = "Server 2025 Standard"
+  sort_by                  = "TIMECREATED"
+  sort_order               = "DESC"
+  state                    = "AVAILABLE"
+}
