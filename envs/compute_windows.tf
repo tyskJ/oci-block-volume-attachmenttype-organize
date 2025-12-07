@@ -1,9 +1,9 @@
 /************************************************************
-Compute (Windows Server) - No SLA
+Compute (Windows Server)
 ************************************************************/
 ##### Instance
-# resource "oci_core_instance" "windows_no_sla" {
-#   display_name        = "windows-instance-no-sla"
+# resource "oci_core_instance" "windows_instance" {
+#   display_name        = "windows-instance"
 #   compartment_id      = oci_identity_compartment.workload.id
 #   availability_domain = data.oci_identity_availability_domain.ads.name
 #   fault_domain        = data.oci_identity_fault_domains.fds.fault_domains[0].name
@@ -57,13 +57,13 @@ Compute (Windows Server) - No SLA
 #     }
 #   }
 #   create_vnic_details {
-#     display_name = "windows-instance-no-sla-vnic"
+#     display_name = "windows-instance-vnic"
 #     subnet_id    = oci_core_subnet.public.id
 #     nsg_ids = [
 #       oci_core_network_security_group.sg.id
 #     ]
 #     assign_public_ip = true
-#     hostname_label   = "windows-instance-no-sla"
+#     hostname_label   = "windows-instance"
 #   }
 #   is_pv_encryption_in_transit_enabled = true
 #   source_details {

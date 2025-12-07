@@ -13,11 +13,11 @@ resource "local_sensitive_file" "private_key" {
 }
 
 /************************************************************
-Compute (Oracle Linux) - No SLA
+Compute (Oracle Linux)
 ************************************************************/
 ##### Instance
-resource "oci_core_instance" "oracle_no_sla" {
-  display_name        = "oracle-instance-no-sla"
+resource "oci_core_instance" "oracle_instance" {
+  display_name        = "oracle-instance"
   compartment_id      = oci_identity_compartment.workload.id
   availability_domain = data.oci_identity_availability_domain.ads.name
   fault_domain        = data.oci_identity_fault_domains.fds.fault_domains[0].name
@@ -99,13 +99,13 @@ resource "oci_core_instance" "oracle_no_sla" {
     }
   }
   create_vnic_details {
-    display_name = "oracle-instance-no-sla-vnic"
+    display_name = "oracle-instance-vnic"
     subnet_id    = oci_core_subnet.public.id
     nsg_ids = [
       oci_core_network_security_group.sg.id
     ]
     assign_public_ip = true
-    hostname_label   = "oracle-instance-no-sla"
+    hostname_label   = "oracle-instance"
   }
   is_pv_encryption_in_transit_enabled = true
   source_details {
@@ -129,20 +129,20 @@ resource "oci_core_instance" "oracle_no_sla" {
 
 ##### TimeWait
 # cloud-init完了に約12分かかるため
-resource "terraform_data" "main_1" {
-  input = oci_core_instance.oracle_no_sla.id
+resource "terraform_data" "main" {
+  input = oci_core_instance.oracle_instance.id
 }
 
-resource "time_sleep" "wait_cloud_init_finish_1" {
-  depends_on      = [terraform_data.main_1]
+resource "time_sleep" "wait_cloud_init_finish" {
+  depends_on      = [terraform_data.main]
   create_duration = "15m"
 }
 
 ##### Block Volume
 ### For Paravirtualized
-resource "oci_core_volume" "oracle_block_volume_para_no_sla" {
-  depends_on          = [time_sleep.wait_cloud_init_finish_1]
-  display_name        = "oracle-volume-paravirtualized-no-sla"
+resource "oci_core_volume" "oracle_volume_para" {
+  depends_on          = [time_sleep.wait_cloud_init_finish]
+  display_name        = "oracle-volume-paravirtualized"
   compartment_id      = oci_identity_compartment.workload.id
   availability_domain = data.oci_identity_availability_domain.ads.name
   size_in_gbs         = "100"
@@ -169,19 +169,19 @@ resource "oci_core_volume" "oracle_block_volume_para_no_sla" {
   #   volume_backup_id        = null
 }
 
-resource "oci_core_volume_attachment" "attach_oracle_block_volume_para_no_sla" {
+resource "oci_core_volume_attachment" "attach_oracle_volume_para" {
   attachment_type                     = "paravirtualized"
   device                              = "/dev/oracleoci/oraclevdb"
-  instance_id                         = oci_core_instance.oracle_no_sla.id
-  volume_id                           = oci_core_volume.oracle_block_volume_para_no_sla.id
+  instance_id                         = oci_core_instance.oracle_instance.id
+  volume_id                           = oci_core_volume.oracle_volume_para.id
   is_pv_encryption_in_transit_enabled = true
-  display_name                        = "attach-oracle-volume-paravirtualized-no-sla"
+  display_name                        = "attach-oracle-volume-paravirtualized"
 }
 
 ### For ISCSI (Attach by Agent)
-resource "oci_core_volume" "oracle_block_volume_iscsi_by_agent_no_sla" {
-  depends_on          = [time_sleep.wait_cloud_init_finish_1]
-  display_name        = "oracle-volume-iscsi-by-agent-no-sla"
+resource "oci_core_volume" "oracle_volume_iscsi_by_agent" {
+  depends_on          = [time_sleep.wait_cloud_init_finish]
+  display_name        = "oracle-volume-iscsi-by-agent"
   compartment_id      = oci_identity_compartment.workload.id
   availability_domain = data.oci_identity_availability_domain.ads.name
   size_in_gbs         = "100"
@@ -208,21 +208,21 @@ resource "oci_core_volume" "oracle_block_volume_iscsi_by_agent_no_sla" {
   #   volume_backup_id        = null
 }
 
-resource "oci_core_volume_attachment" "attach_oracle_block_volume_iscsi_by_agent_no_sla" {
+resource "oci_core_volume_attachment" "attach_oracle_volume_iscsi_by_agent" {
   attachment_type                   = "iscsi"
   device                            = "/dev/oracleoci/oraclevdc"
-  instance_id                       = oci_core_instance.oracle_no_sla.id
-  volume_id                         = oci_core_volume.oracle_block_volume_iscsi_by_agent_no_sla.id
+  instance_id                       = oci_core_instance.oracle_instance.id
+  volume_id                         = oci_core_volume.oracle_volume_iscsi_by_agent.id
   encryption_in_transit_type        = "NONE"
-  display_name                      = "attach-oracle-volume-iscsi-by-agent-no-sla"
+  display_name                      = "attach-oracle-volume-iscsi-by-agent"
   is_agent_auto_iscsi_login_enabled = true
   use_chap                          = true
 }
 
 ### For ISCSI (Attach by Command)
-resource "oci_core_volume" "oracle_block_volume_iscsi_by_command_no_sla" {
-  depends_on          = [time_sleep.wait_cloud_init_finish_1]
-  display_name        = "oracle-volume-iscsi-by-command-no-sla"
+resource "oci_core_volume" "oracle_volume_iscsi_by_command" {
+  depends_on          = [time_sleep.wait_cloud_init_finish]
+  display_name        = "oracle-volume-iscsi-by-command"
   compartment_id      = oci_identity_compartment.workload.id
   availability_domain = data.oci_identity_availability_domain.ads.name
   size_in_gbs         = "100"
@@ -249,38 +249,38 @@ resource "oci_core_volume" "oracle_block_volume_iscsi_by_command_no_sla" {
   #   volume_backup_id        = null
 }
 
-resource "oci_core_volume_attachment" "attach_oracle_block_volume_iscsi_by_command_no_sla" {
+resource "oci_core_volume_attachment" "attach_oracle_volume_iscsi_by_command" {
   attachment_type                   = "iscsi"
   device                            = "/dev/oracleoci/oraclevdd"
-  instance_id                       = oci_core_instance.oracle_no_sla.id
-  volume_id                         = oci_core_volume.oracle_block_volume_iscsi_by_command_no_sla.id
+  instance_id                       = oci_core_instance.oracle_instance.id
+  volume_id                         = oci_core_volume.oracle_volume_iscsi_by_command.id
   encryption_in_transit_type        = "NONE"
-  display_name                      = "attach-oracle-volume-iscsi-by-command-no-sla"
+  display_name                      = "attach-oracle-volume-iscsi-by-command"
   is_agent_auto_iscsi_login_enabled = false
   use_chap                          = true
 }
 
 resource "terraform_data" "remote_exec_oracle_iscsi" {
   depends_on = [
-    time_sleep.wait_cloud_init_finish_1,
-    oci_core_volume_attachment.attach_oracle_block_volume_iscsi_by_command_no_sla
+    time_sleep.wait_cloud_init_finish,
+    oci_core_volume_attachment.attach_oracle_volume_iscsi_by_command
   ]
   provisioner "remote-exec" {
     connection {
       agent       = false
       timeout     = "10m"
-      host        = oci_core_instance.oracle_no_sla.public_ip
+      host        = oci_core_instance.oracle_instance.public_ip
       user        = "opc"
       private_key = tls_private_key.ssh_keygen.private_key_openssh
     }
     inline = [
       "touch ~/IMadeAFile.Right.Here",
-      "sudo iscsiadm -m node -o new -T ${oci_core_volume_attachment.attach_oracle_block_volume_iscsi_by_command_no_sla.iqn} -p ${oci_core_volume_attachment.attach_oracle_block_volume_iscsi_by_command_no_sla.ipv4}:${oci_core_volume_attachment.attach_oracle_block_volume_iscsi_by_command_no_sla.port}",
-      "sudo iscsiadm -m node -o update -T ${oci_core_volume_attachment.attach_oracle_block_volume_iscsi_by_command_no_sla.iqn} -n node.startup -v automatic",
-      "sudo iscsiadm -m node -T ${oci_core_volume_attachment.attach_oracle_block_volume_iscsi_by_command_no_sla.iqn} -p ${oci_core_volume_attachment.attach_oracle_block_volume_iscsi_by_command_no_sla.ipv4}:${oci_core_volume_attachment.attach_oracle_block_volume_iscsi_by_command_no_sla.port} -o update -n node.session.auth.authmethod -v CHAP",
-      "sudo iscsiadm -m node -T ${oci_core_volume_attachment.attach_oracle_block_volume_iscsi_by_command_no_sla.iqn} -p ${oci_core_volume_attachment.attach_oracle_block_volume_iscsi_by_command_no_sla.ipv4}:${oci_core_volume_attachment.attach_oracle_block_volume_iscsi_by_command_no_sla.port} -o update -n node.session.auth.username -v ${oci_core_volume_attachment.attach_oracle_block_volume_iscsi_by_command_no_sla.chap_username}",
-      "sudo iscsiadm -m node -T ${oci_core_volume_attachment.attach_oracle_block_volume_iscsi_by_command_no_sla.iqn} -p ${oci_core_volume_attachment.attach_oracle_block_volume_iscsi_by_command_no_sla.ipv4}:${oci_core_volume_attachment.attach_oracle_block_volume_iscsi_by_command_no_sla.port} -o update -n node.session.auth.password -v ${oci_core_volume_attachment.attach_oracle_block_volume_iscsi_by_command_no_sla.chap_secret}",
-      "sudo iscsiadm -m node -T ${oci_core_volume_attachment.attach_oracle_block_volume_iscsi_by_command_no_sla.iqn} -p ${oci_core_volume_attachment.attach_oracle_block_volume_iscsi_by_command_no_sla.ipv4}:${oci_core_volume_attachment.attach_oracle_block_volume_iscsi_by_command_no_sla.port} -l",
+      "sudo iscsiadm -m node -o new -T ${oci_core_volume_attachment.attach_oracle_volume_iscsi_by_command.iqn} -p ${oci_core_volume_attachment.attach_oracle_volume_iscsi_by_command.ipv4}:${oci_core_volume_attachment.attach_oracle_volume_iscsi_by_command.port}",
+      "sudo iscsiadm -m node -o update -T ${oci_core_volume_attachment.attach_oracle_volume_iscsi_by_command.iqn} -n node.startup -v automatic",
+      "sudo iscsiadm -m node -T ${oci_core_volume_attachment.attach_oracle_volume_iscsi_by_command.iqn} -p ${oci_core_volume_attachment.attach_oracle_volume_iscsi_by_command.ipv4}:${oci_core_volume_attachment.attach_oracle_volume_iscsi_by_command.port} -o update -n node.session.auth.authmethod -v CHAP",
+      "sudo iscsiadm -m node -T ${oci_core_volume_attachment.attach_oracle_volume_iscsi_by_command.iqn} -p ${oci_core_volume_attachment.attach_oracle_volume_iscsi_by_command.ipv4}:${oci_core_volume_attachment.attach_oracle_volume_iscsi_by_command.port} -o update -n node.session.auth.username -v ${oci_core_volume_attachment.attach_oracle_volume_iscsi_by_command.chap_username}",
+      "sudo iscsiadm -m node -T ${oci_core_volume_attachment.attach_oracle_volume_iscsi_by_command.iqn} -p ${oci_core_volume_attachment.attach_oracle_volume_iscsi_by_command.ipv4}:${oci_core_volume_attachment.attach_oracle_volume_iscsi_by_command.port} -o update -n node.session.auth.password -v ${oci_core_volume_attachment.attach_oracle_volume_iscsi_by_command.chap_secret}",
+      "sudo iscsiadm -m node -T ${oci_core_volume_attachment.attach_oracle_volume_iscsi_by_command.iqn} -p ${oci_core_volume_attachment.attach_oracle_volume_iscsi_by_command.ipv4}:${oci_core_volume_attachment.attach_oracle_volume_iscsi_by_command.port} -l",
     ]
   }
 }
