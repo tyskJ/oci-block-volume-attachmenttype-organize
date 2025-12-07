@@ -1,0 +1,84 @@
+/************************************************************
+Compute (Windows Server) - No SLA
+************************************************************/
+##### Instance
+# resource "oci_core_instance" "windows_no_sla" {
+#   display_name        = "windows-instance-no-sla"
+#   compartment_id      = oci_identity_compartment.workload.id
+#   availability_domain = data.oci_identity_availability_domain.ads.name
+#   fault_domain        = data.oci_identity_fault_domains.fds.fault_domains[0].name
+#   shape               = "VM.Standard.E5.Flex"
+#   shape_config {
+#     ocpus         = 1
+#     memory_in_gbs = 12
+#   }
+#   instance_options {
+#     are_legacy_imds_endpoints_disabled = false
+#   }
+#   availability_config {
+#     is_live_migration_preferred = false
+#     recovery_action             = "RESTORE_INSTANCE"
+#   }
+#   agent_config {
+#     are_all_plugins_disabled = false
+#     is_management_disabled   = false
+#     is_monitoring_disabled   = false
+#     plugins_config {
+#       desired_state = "ENABLED"
+#       name          = "Custom Logs Monitoring"
+#     }
+#     plugins_config {
+#       desired_state = "ENABLED"
+#       name          = "Compute Instance Run Command"
+#     }
+#     plugins_config {
+#       desired_state = "ENABLED"
+#       name          = "Compute Instance Monitoring"
+#     }
+#     plugins_config {
+#       desired_state = "ENABLED"
+#       name          = "Cloud Guard Workload Protection"
+#     }
+#     plugins_config {
+#       desired_state = "ENABLED"
+#       name          = "Block Volume Management"
+#     }
+#     plugins_config {
+#       desired_state = "DISABLED"
+#       name          = "Vulnerability Scanning"
+#     }
+#     plugins_config {
+#       desired_state = "DISABLED"
+#       name          = "OS Management Hub Agent"
+#     }
+#     plugins_config {
+#       desired_state = "DISABLED"
+#       name          = "Fleet Application Management Service"
+#     }
+#   }
+#   create_vnic_details {
+#     display_name = "windows-instance-no-sla-vnic"
+#     subnet_id    = oci_core_subnet.public.id
+#     nsg_ids = [
+#       oci_core_network_security_group.sg.id
+#     ]
+#     assign_public_ip = true
+#     hostname_label   = "windows-instance-no-sla"
+#   }
+#   is_pv_encryption_in_transit_enabled = true
+#   source_details {
+#     source_type                     = "image"
+#     source_id                       = data.oci_core_images.windows_supported_image.images[0].id
+#     boot_volume_size_in_gbs         = "100"
+#     boot_volume_vpus_per_gb         = "10"
+#     is_preserve_boot_volume_enabled = false
+#     # kms_key_id                      = null
+#   }
+#   #   metadata = {
+#   #   }
+#   defined_tags = {
+#     format("%s.%s", oci_identity_tag_namespace.common.name, oci_identity_tag_default.key_env.tag_definition_name)                = "prd"
+#     format("%s.%s", oci_identity_tag_namespace.common.name, oci_identity_tag_default.key_managedbyterraform.tag_definition_name) = "true"
+#     "Compute.CloudAgent"                                                                                                         = "true"
+#   }
+# }
