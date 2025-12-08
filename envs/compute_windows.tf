@@ -1,4 +1,32 @@
 /************************************************************
+PW
+************************************************************/
+resource "random_string" "instance_password" {
+  length  = 16
+  special = true
+}
+
+output "test" {
+  value = random_string.instance_password.result
+}
+
+/************************************************************
+Cloud-Init
+************************************************************/
+data "cloudinit_config" "this" {
+  gzip          = false
+  base64_encode = true
+  part {
+    filename     = "windows_init.ps1"
+    content_type = "text/x-shellscript"
+    content = templatefile("${path.module}/userdata/windows_init.ps1", {
+      instance_user     = "opc"
+      instance_password = random_string.instance_password.result
+    })
+  }
+}
+
+/************************************************************
 Compute (Windows Server)
 ************************************************************/
 ##### Instance
@@ -74,8 +102,9 @@ Compute (Windows Server)
 #     is_preserve_boot_volume_enabled = false
 #     # kms_key_id                      = null
 #   }
-#   #   metadata = {
-#   #   }
+#   metadata = {
+#     user_data = data.cloudinit_config.this.rendered
+#   }
 #   defined_tags = {
 #     format("%s.%s", oci_identity_tag_namespace.common.name, oci_identity_tag_default.key_env.tag_definition_name)                = "prd"
 #     format("%s.%s", oci_identity_tag_namespace.common.name, oci_identity_tag_default.key_managedbyterraform.tag_definition_name) = "true"
