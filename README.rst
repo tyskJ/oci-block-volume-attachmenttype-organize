@@ -67,7 +67,7 @@ OCI Block Volume のアタッチメントタイプを整理する
   cat <<EOF > config.oci.tfbackend
   bucket = "terraform-working"
   namespace = "テナンシに一意に付与されたネームスペース"
-  key = "oci-block-volume-attachment-organize/terraform.tfstate"
+  key = "oci-block-volume-attachmenttype-organize/terraform.tfstate"
   auth = "SecurityToken"
   config_file_profile = "ADMIN"
   region = "ap-tokyo-1"
