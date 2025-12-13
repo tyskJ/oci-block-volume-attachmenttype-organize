@@ -6,10 +6,6 @@ resource "random_string" "instance_password" {
   special = true
 }
 
-output "test" {
-  value = random_string.instance_password.result
-}
-
 /************************************************************
 Cloud-Init
 ************************************************************/
