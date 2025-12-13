@@ -176,6 +176,8 @@ Compute (Oracle Linux)
 #   volume_id                           = oci_core_volume.oracle_volume_para.id
 #   is_pv_encryption_in_transit_enabled = true
 #   display_name                        = "attach-oracle-volume-paravirtualized"
+#   is_read_only                        = false
+#   is_shareable                        = false
 # }
 
 # ### For ISCSI (Attach by Agent)
@@ -217,6 +219,8 @@ Compute (Oracle Linux)
 #   display_name                      = "attach-oracle-volume-iscsi-by-agent"
 #   is_agent_auto_iscsi_login_enabled = true
 #   use_chap                          = true
+#   is_read_only                      = false
+#   is_shareable                      = false
 # }
 
 # ### For ISCSI (Attach by Command)
@@ -258,6 +262,8 @@ Compute (Oracle Linux)
 #   display_name                      = "attach-oracle-volume-iscsi-by-command"
 #   is_agent_auto_iscsi_login_enabled = false
 #   use_chap                          = true
+#   is_read_only                      = false
+#   is_shareable                      = false
 # }
 
 # resource "terraform_data" "remote_exec_oracle_iscsi" {

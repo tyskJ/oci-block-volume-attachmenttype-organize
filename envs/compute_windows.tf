@@ -107,3 +107,43 @@ Compute (Windows Server)
 #     "Compute.CloudAgent"                                                                                                         = "true"
 #   }
 # }
+
+# ##### Block Volume
+# ### For Paravirtualized
+# resource "oci_core_volume" "windows_volume_para" {
+#   display_name        = "windows-volume-paravirtualized"
+#   compartment_id      = oci_identity_compartment.workload.id
+#   availability_domain = data.oci_identity_availability_domain.ads.name
+#   size_in_gbs         = "100"
+#   vpus_per_gb         = "10"
+#   defined_tags = {
+#     format("%s.%s", oci_identity_tag_namespace.common.name, oci_identity_tag_default.key_env.tag_definition_name)                = "prd"
+#     format("%s.%s", oci_identity_tag_namespace.common.name, oci_identity_tag_default.key_managedbyterraform.tag_definition_name) = "true"
+#   }
+#   is_auto_tune_enabled = true
+#   autotune_policies {
+#     autotune_type = "DETACHED_VOLUME"
+#     # max_vpus_per_gb = null
+#   }
+#   autotune_policies {
+#     autotune_type   = "PERFORMANCE_BASED"
+#     max_vpus_per_gb = "20"
+#   }
+#   is_reservations_enabled = false
+#   #   block_volume_replicas_deletion = null
+#   #   cluster_placement_group_id     = null
+#   #   freeform_tags           = {}
+#   #   kms_key_id              = null
+#   #   xrc_kms_key_id          = null
+#   #   volume_backup_id        = null
+# }
+
+# resource "oci_core_volume_attachment" "attach_windows_volume_para" {
+#   attachment_type                     = "paravirtualized"
+#   instance_id                         = oci_core_instance.windows_instance.id
+#   volume_id                           = oci_core_volume.windows_volume_para.id
+#   is_pv_encryption_in_transit_enabled = true
+#   display_name                        = "attach-windows-volume-paravirtualized"
+#   is_read_only                        = false
+#   is_shareable                        = false
+# }
