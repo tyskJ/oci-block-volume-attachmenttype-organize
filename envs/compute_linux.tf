@@ -129,19 +129,19 @@ Compute (Oracle Linux)
 
 # ##### TimeWait
 # # cloud-init完了に約12分かかるため
-# resource "terraform_data" "main" {
+# resource "terraform_data" "wait_oracle" {
 #   input = oci_core_instance.oracle_instance.id
 # }
 
-# resource "time_sleep" "wait_cloud_init_finish" {
-#   depends_on      = [terraform_data.main]
+# resource "time_sleep" "wait_oracle_cloud_init_finish" {
+#   depends_on      = [terraform_data.wait_oracle]
 #   create_duration = "15m"
 # }
 
 # ##### Block Volume
 # ### For Paravirtualized
 # resource "oci_core_volume" "oracle_volume_para" {
-#   depends_on          = [time_sleep.wait_cloud_init_finish]
+#   depends_on          = [time_sleep.wait_oracle_cloud_init_finish]
 #   display_name        = "oracle-volume-paravirtualized"
 #   compartment_id      = oci_identity_compartment.workload.id
 #   availability_domain = data.oci_identity_availability_domain.ads.name
@@ -182,7 +182,7 @@ Compute (Oracle Linux)
 
 # ### For ISCSI (Attach by Agent)
 # resource "oci_core_volume" "oracle_volume_iscsi_by_agent" {
-#   depends_on          = [time_sleep.wait_cloud_init_finish]
+#   depends_on          = [time_sleep.wait_oracle_cloud_init_finish]
 #   display_name        = "oracle-volume-iscsi-by-agent"
 #   compartment_id      = oci_identity_compartment.workload.id
 #   availability_domain = data.oci_identity_availability_domain.ads.name
@@ -225,7 +225,7 @@ Compute (Oracle Linux)
 
 # ### For ISCSI (Attach by Command)
 # resource "oci_core_volume" "oracle_volume_iscsi_by_command" {
-#   depends_on          = [time_sleep.wait_cloud_init_finish]
+#   depends_on          = [time_sleep.wait_oracle_cloud_init_finish]
 #   display_name        = "oracle-volume-iscsi-by-command"
 #   compartment_id      = oci_identity_compartment.workload.id
 #   availability_domain = data.oci_identity_availability_domain.ads.name
@@ -268,7 +268,7 @@ Compute (Oracle Linux)
 
 # resource "terraform_data" "remote_exec_oracle_iscsi" {
 #   depends_on = [
-#     time_sleep.wait_cloud_init_finish,
+#     time_sleep.wait_oracle_cloud_init_finish,
 #     oci_core_volume_attachment.attach_oracle_volume_iscsi_by_command
 #   ]
 #   provisioner "remote-exec" {
