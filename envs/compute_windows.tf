@@ -113,15 +113,15 @@ Compute (Windows Server)
 #   }
 # }
 
-# ##### TimeWait
-# resource "terraform_data" "wait_windows" {
-#   input = oci_core_instance.windows_instance.id
-# }
+# # ##### TimeWait
+# # resource "terraform_data" "wait_windows" {
+# #   input = oci_core_instance.windows_instance.id
+# # }
 
-# resource "time_sleep" "wait_windows_cloud_init_finish" {
-#   depends_on      = [terraform_data.wait_windows]
-#   create_duration = "5m"
-# }
+# # resource "time_sleep" "wait_windows_cloud_init_finish" {
+# #   depends_on      = [terraform_data.wait_windows]
+# #   create_duration = "5m"
+# # }
 
 # ##### Block Volume
 # ### For Paravirtualized
@@ -166,7 +166,7 @@ Compute (Windows Server)
 
 # ### For ISCSI (Attach by Agent)
 # resource "oci_core_volume" "windows_volume_iscsi_by_agent" {
-#   depends_on          = [time_sleep.wait_windows_cloud_init_finish]
+#   # depends_on          = [time_sleep.wait_windows_cloud_init_finish]
 #   display_name        = "windows-volume-iscsi-by-agent"
 #   compartment_id      = oci_identity_compartment.workload.id
 #   availability_domain = data.oci_identity_availability_domain.ads.name
@@ -208,17 +208,19 @@ Compute (Windows Server)
 
 # resource "terraform_data" "remote_exec_windows_iscsi_by_agent" {
 #   depends_on = [
-#     time_sleep.wait_windows_cloud_init_finish,
+#     # time_sleep.wait_windows_cloud_init_finish,
 #     oci_core_volume_attachment.attach_windows_volume_iscsi_by_agent
 #   ]
 #   provisioner "remote-exec" {
 #     connection {
-#       agent    = false
-#       type     = "rdp"
-#       timeout  = "10m"
+#       type     = "winrm"
+#       timeout  = "5m"
 #       host     = oci_core_instance.windows_instance.public_ip
 #       user     = "opc"
 #       password = random_string.instance_password.result
+#       https    = true
+#       port     = 5986
+#       insecure = true
 #     }
 #     inline = [
 #       "iscsicli.exe QLoginTarget ${oci_core_volume_attachment.attach_windows_volume_iscsi_by_agent.iqn} ${oci_core_volume_attachment.attach_windows_volume_iscsi_by_agent.chap_username} ${oci_core_volume_attachment.attach_windows_volume_iscsi_by_agent.chap_secret}",
@@ -229,7 +231,7 @@ Compute (Windows Server)
 
 # ### For ISCSI (Attach by Command)
 # resource "oci_core_volume" "windows_volume_iscsi_by_command" {
-#   depends_on          = [time_sleep.wait_windows_cloud_init_finish]
+#   # depends_on          = [time_sleep.wait_windows_cloud_init_finish]
 #   display_name        = "windows-volume-iscsi-by-command"
 #   compartment_id      = oci_identity_compartment.workload.id
 #   availability_domain = data.oci_identity_availability_domain.ads.name
@@ -271,19 +273,21 @@ Compute (Windows Server)
 
 # resource "terraform_data" "remote_exec_windows_iscsi_by_command" {
 #   depends_on = [
-#     time_sleep.wait_windows_cloud_init_finish,
+#     # time_sleep.wait_windows_cloud_init_finish,
 #     oci_core_volume_attachment.attach_windows_volume_iscsi_by_agent,
 #     terraform_data.remote_exec_windows_iscsi_by_agent,
 #     oci_core_volume_attachment.attach_windows_volume_iscsi_by_command
 #   ]
 #   provisioner "remote-exec" {
 #     connection {
-#       agent    = false
-#       type     = "rdp"
-#       timeout  = "10m"
+#       type     = "winrm"
+#       timeout  = "5m"
 #       host     = oci_core_instance.windows_instance.public_ip
 #       user     = "opc"
 #       password = random_string.instance_password.result
+#       https    = true
+#       port     = 5986
+#       insecure = true
 #     }
 #     inline = [
 #       "iscsicli.exe QAddTargetPortal ${oci_core_volume_attachment.attach_windows_volume_iscsi_by_command.ipv4}",
