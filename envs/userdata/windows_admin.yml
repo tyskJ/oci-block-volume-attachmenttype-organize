@@ -1,0 +1,36 @@
+#cloud-config
+write_files:
+ - path: C:/windows_admin.ps1
+   permissions: '0777'
+   content: |
+     $filename = Get-Date -Format "yyyy-MMdd-HHmmss"
+     Start-Transcript C:/$filename.log -Append
+     Write-Output "Language Pack Install"
+     Install-Language ja-JP
+     Set-WinUserLanguageList ja,en-US -force
+     Write-Output "Language Settings"
+     Set-WinUILanguageOverride -Language ja-JP
+     Set-SystemPreferredUILanguage ja-JP
+     Write-Output "Input Method to IME"
+     Set-WinDefaultInputMethodOverride "0411:00000411"
+     reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\i8042prt\Parameters" /v "LayerDriver JPN" /t "REG_SZ" /d "kbd106.dll" /f
+     reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\i8042prt\Parameters" /v "OverrideKeyboardIdentifier" /t "REG_SZ" /d "PCAT_106KEY" /f
+     reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\i8042prt\Parameters" /v "OverrideKeyboardSubtype" /t "REG_DWORD" /d "2" /f
+     reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\i8042prt\Parameters" /v "OverrideKeyboardType" /t "REG_DWORD" /d "7" /f
+     Write-Output "Region"
+     Set-WinHomeLocation -GeoId 122
+     Write-Output "TimeZone"
+     Set-TimeZone -id "Tokyo Standard Time"
+     Write-Output "Copy All Users"
+     Copy-UserInternationalSettingsToSystem -WelcomeScreen $True -NewUser $True
+     Write-Output "System Locale"
+     Set-WinSystemLocale -SystemLocale ja-JP
+     Write-Output "RDP Session"
+     reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server" /v "fSingleSessionPerUser" /t "REG_DWORD" /d "0" /f
+     # Write-Output "Restart"
+     # Restart-Computer -Force
+     # Write-Output "finish Scripts"
+     Stop-Transcript
+
+runcmd:
+ - powershell.exe "C:/windows_admin.ps1"

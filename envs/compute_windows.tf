@@ -20,6 +20,11 @@ data "cloudinit_config" "this" {
       instance_password = random_string.instance_password.result
     })
   }
+  # part {
+  #   filename     = "windows_admin.yml"
+  #   content_type = "text/cloud-config"
+  #   content      = file("${path.module}/userdata/windows_admin.yml")
+  # }
 }
 
 /************************************************************
@@ -108,9 +113,20 @@ Compute (Windows Server)
 #   }
 # }
 
+# ##### TimeWait
+# resource "terraform_data" "wait_windows" {
+#   input = oci_core_instance.windows_instance.id
+# }
+
+# resource "time_sleep" "wait_windows_cloud_init_finish" {
+#   depends_on      = [terraform_data.wait_windows]
+#   create_duration = "5m"
+# }
+
 # ##### Block Volume
 # ### For Paravirtualized
 # resource "oci_core_volume" "windows_volume_para" {
+#   depends_on          = [time_sleep.wait_windows_cloud_init_finish]
 #   display_name        = "windows-volume-paravirtualized"
 #   compartment_id      = oci_identity_compartment.workload.id
 #   availability_domain = data.oci_identity_availability_domain.ads.name
@@ -150,6 +166,7 @@ Compute (Windows Server)
 
 # ### For ISCSI (Attach by Agent)
 # resource "oci_core_volume" "windows_volume_iscsi_by_agent" {
+#   depends_on          = [time_sleep.wait_windows_cloud_init_finish]
 #   display_name        = "windows-volume-iscsi-by-agent"
 #   compartment_id      = oci_identity_compartment.workload.id
 #   availability_domain = data.oci_identity_availability_domain.ads.name
@@ -191,6 +208,7 @@ Compute (Windows Server)
 
 # resource "terraform_data" "remote_exec_windows_iscsi_by_agent" {
 #   depends_on = [
+#     time_sleep.wait_windows_cloud_init_finish,
 #     oci_core_volume_attachment.attach_windows_volume_iscsi_by_agent
 #   ]
 #   provisioner "remote-exec" {
@@ -211,6 +229,7 @@ Compute (Windows Server)
 
 # ### For ISCSI (Attach by Command)
 # resource "oci_core_volume" "windows_volume_iscsi_by_command" {
+#   depends_on          = [time_sleep.wait_windows_cloud_init_finish]
 #   display_name        = "windows-volume-iscsi-by-command"
 #   compartment_id      = oci_identity_compartment.workload.id
 #   availability_domain = data.oci_identity_availability_domain.ads.name
@@ -252,6 +271,7 @@ Compute (Windows Server)
 
 # resource "terraform_data" "remote_exec_windows_iscsi_by_command" {
 #   depends_on = [
+#     time_sleep.wait_windows_cloud_init_finish,
 #     oci_core_volume_attachment.attach_windows_volume_iscsi_by_agent,
 #     terraform_data.remote_exec_windows_iscsi_by_agent,
 #     oci_core_volume_attachment.attach_windows_volume_iscsi_by_command
