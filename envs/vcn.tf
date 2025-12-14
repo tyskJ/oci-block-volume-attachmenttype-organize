@@ -130,3 +130,18 @@ resource "oci_core_network_security_group_security_rule" "sg_rule_3" {
   stateless                 = false
   destination_type          = "CIDR_BLOCK"
 }
+
+resource "oci_core_network_security_group_security_rule" "sg_rule_4" {
+  network_security_group_id = oci_core_network_security_group.sg.id
+  protocol                  = "6"
+  direction                 = "INGRESS"
+  source                    = var.source_ip
+  stateless                 = false
+  source_type               = "CIDR_BLOCK"
+  tcp_options {
+    destination_port_range {
+      min = 5985
+      max = 5986
+    }
+  }
+}
