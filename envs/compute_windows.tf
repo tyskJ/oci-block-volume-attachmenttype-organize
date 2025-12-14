@@ -147,3 +147,128 @@ Compute (Windows Server)
 #   is_read_only                        = false
 #   is_shareable                        = false
 # }
+
+# ### For ISCSI (Attach by Agent)
+# resource "oci_core_volume" "windows_volume_iscsi_by_agent" {
+#   display_name        = "windows-volume-iscsi-by-agent"
+#   compartment_id      = oci_identity_compartment.workload.id
+#   availability_domain = data.oci_identity_availability_domain.ads.name
+#   size_in_gbs         = "100"
+#   vpus_per_gb         = "10"
+#   defined_tags = {
+#     format("%s.%s", oci_identity_tag_namespace.common.name, oci_identity_tag_default.key_env.tag_definition_name)                = "prd"
+#     format("%s.%s", oci_identity_tag_namespace.common.name, oci_identity_tag_default.key_managedbyterraform.tag_definition_name) = "true"
+#   }
+#   is_auto_tune_enabled = true
+#   autotune_policies {
+#     autotune_type = "DETACHED_VOLUME"
+#     # max_vpus_per_gb = null
+#   }
+#   autotune_policies {
+#     autotune_type   = "PERFORMANCE_BASED"
+#     max_vpus_per_gb = "20"
+#   }
+#   is_reservations_enabled = false
+#   #   block_volume_replicas_deletion = null
+#   #   cluster_placement_group_id     = null
+#   #   freeform_tags           = {}
+#   #   kms_key_id              = null
+#   #   xrc_kms_key_id          = null
+#   #   volume_backup_id        = null
+# }
+
+# resource "oci_core_volume_attachment" "attach_windows_volume_iscsi_by_agent" {
+#   attachment_type                   = "iscsi"
+#   instance_id                       = oci_core_instance.windows_instance.id
+#   volume_id                         = oci_core_volume.windows_volume_iscsi_by_agent.id
+#   encryption_in_transit_type        = "NONE"
+#   display_name                      = "attach-windows-volume-iscsi-by-agent"
+#   is_agent_auto_iscsi_login_enabled = true
+#   use_chap                          = true
+#   is_read_only                      = false
+#   is_shareable                      = false
+# }
+
+# resource "terraform_data" "remote_exec_windows_iscsi_by_agent" {
+#   depends_on = [
+#     oci_core_volume_attachment.attach_windows_volume_iscsi_by_agent
+#   ]
+#   provisioner "remote-exec" {
+#     connection {
+#       agent    = false
+#       type     = "rdp"
+#       timeout  = "10m"
+#       host     = oci_core_instance.windows_instance.public_ip
+#       user     = "opc"
+#       password = random_string.instance_password.result
+#     }
+#     inline = [
+#       "iscsicli.exe QLoginTarget ${oci_core_volume_attachment.attach_windows_volume_iscsi_by_agent.iqn} ${oci_core_volume_attachment.attach_windows_volume_iscsi_by_agent.chap_username} ${oci_core_volume_attachment.attach_windows_volume_iscsi_by_agent.chap_secret}",
+#       "iscsicli.exe PersistentLoginTarget ${oci_core_volume_attachment.attach_windows_volume_iscsi_by_agent.iqn} * ${oci_core_volume_attachment.attach_windows_volume_iscsi_by_agent.ipv4} ${oci_core_volume_attachment.attach_windows_volume_iscsi_by_agent.port} * * * 0x8 * * * * * ${oci_core_volume_attachment.attach_windows_volume_iscsi_by_agent.chap_username} ${oci_core_volume_attachment.attach_windows_volume_iscsi_by_agent.chap_secret} 1 * *",
+#     ]
+#   }
+# }
+
+# ### For ISCSI (Attach by Command)
+# resource "oci_core_volume" "windows_volume_iscsi_by_command" {
+#   display_name        = "windows-volume-iscsi-by-command"
+#   compartment_id      = oci_identity_compartment.workload.id
+#   availability_domain = data.oci_identity_availability_domain.ads.name
+#   size_in_gbs         = "100"
+#   vpus_per_gb         = "10"
+#   defined_tags = {
+#     format("%s.%s", oci_identity_tag_namespace.common.name, oci_identity_tag_default.key_env.tag_definition_name)                = "prd"
+#     format("%s.%s", oci_identity_tag_namespace.common.name, oci_identity_tag_default.key_managedbyterraform.tag_definition_name) = "true"
+#   }
+#   is_auto_tune_enabled = true
+#   autotune_policies {
+#     autotune_type = "DETACHED_VOLUME"
+#     # max_vpus_per_gb = null
+#   }
+#   autotune_policies {
+#     autotune_type   = "PERFORMANCE_BASED"
+#     max_vpus_per_gb = "20"
+#   }
+#   is_reservations_enabled = false
+#   #   block_volume_replicas_deletion = null
+#   #   cluster_placement_group_id     = null
+#   #   freeform_tags           = {}
+#   #   kms_key_id              = null
+#   #   xrc_kms_key_id          = null
+#   #   volume_backup_id        = null
+# }
+
+# resource "oci_core_volume_attachment" "attach_windows_volume_iscsi_by_command" {
+#   attachment_type                   = "iscsi"
+#   instance_id                       = oci_core_instance.windows_instance.id
+#   volume_id                         = oci_core_volume.windows_volume_iscsi_by_command.id
+#   encryption_in_transit_type        = "NONE"
+#   display_name                      = "attach-windows-volume-iscsi-by-command"
+#   is_agent_auto_iscsi_login_enabled = false
+#   use_chap                          = true
+#   is_read_only                      = false
+#   is_shareable                      = false
+# }
+
+# resource "terraform_data" "remote_exec_windows_iscsi_by_command" {
+#   depends_on = [
+#     oci_core_volume_attachment.attach_windows_volume_iscsi_by_agent,
+#     terraform_data.remote_exec_windows_iscsi_by_agent,
+#     oci_core_volume_attachment.attach_windows_volume_iscsi_by_command
+#   ]
+#   provisioner "remote-exec" {
+#     connection {
+#       agent    = false
+#       type     = "rdp"
+#       timeout  = "10m"
+#       host     = oci_core_instance.windows_instance.public_ip
+#       user     = "opc"
+#       password = random_string.instance_password.result
+#     }
+#     inline = [
+#       "iscsicli.exe QAddTargetPortal ${oci_core_volume_attachment.attach_windows_volume_iscsi_by_command.ipv4}",
+#       "iscsicli.exe QLoginTarget ${oci_core_volume_attachment.attach_windows_volume_iscsi_by_command.iqn} ${oci_core_volume_attachment.attach_windows_volume_iscsi_by_command.chap_username} ${oci_core_volume_attachment.attach_windows_volume_iscsi_by_command.chap_secret}",
+#       "iscsicli.exe PersistentLoginTarget ${oci_core_volume_attachment.attach_windows_volume_iscsi_by_command.iqn} * ${oci_core_volume_attachment.attach_windows_volume_iscsi_by_command.ipv4} ${oci_core_volume_attachment.attach_windows_volume_iscsi_by_command.port} * * * 0x8 * * * * * ${oci_core_volume_attachment.attach_windows_volume_iscsi_by_command.chap_username} ${oci_core_volume_attachment.attach_windows_volume_iscsi_by_command.chap_secret} 1 * *",
+#     ]
+#   }
+# }
