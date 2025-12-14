@@ -274,13 +274,12 @@ Compute (Oracle Linux)
 #   provisioner "remote-exec" {
 #     connection {
 #       agent       = false
-#       timeout     = "10m"
+#       timeout     = "5m"
 #       host        = oci_core_instance.oracle_instance.public_ip
 #       user        = "opc"
 #       private_key = tls_private_key.ssh_keygen.private_key_openssh
 #     }
 #     inline = [
-#       "touch ~/IMadeAFile.Right.Here",
 #       "sudo iscsiadm -m node -o new -T ${oci_core_volume_attachment.attach_oracle_volume_iscsi_by_command.iqn} -p ${oci_core_volume_attachment.attach_oracle_volume_iscsi_by_command.ipv4}:${oci_core_volume_attachment.attach_oracle_volume_iscsi_by_command.port}",
 #       "sudo iscsiadm -m node -o update -T ${oci_core_volume_attachment.attach_oracle_volume_iscsi_by_command.iqn} -n node.startup -v automatic",
 #       "sudo iscsiadm -m node -T ${oci_core_volume_attachment.attach_oracle_volume_iscsi_by_command.iqn} -p ${oci_core_volume_attachment.attach_oracle_volume_iscsi_by_command.ipv4}:${oci_core_volume_attachment.attach_oracle_volume_iscsi_by_command.port} -o update -n node.session.auth.authmethod -v CHAP",
