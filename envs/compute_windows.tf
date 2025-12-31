@@ -38,7 +38,7 @@ Compute (Windows Server)
 #   fault_domain        = data.oci_identity_fault_domains.fds.fault_domains[0].name
 #   shape               = "VM.Standard.E5.Flex"
 #   shape_config {
-#     ocpus         = 1
+#     ocpus         = 8
 #     memory_in_gbs = 12
 #   }
 #   instance_options {
