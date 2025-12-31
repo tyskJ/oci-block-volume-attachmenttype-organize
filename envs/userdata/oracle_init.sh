@@ -5,7 +5,7 @@ timedatectl set-timezone Asia/Tokyo
 systemctl restart rsyslog
 
 # Locale
-localectl set-locale LANG=ja_JP.utf8
+localectl set-locale LANG=ja_JP.UTF-8
 localectl set-keymap jp106
 
 # Package Update
