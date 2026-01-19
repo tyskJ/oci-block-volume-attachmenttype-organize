@@ -3,7 +3,7 @@
 =====================================================================
 OCI Block Volume のアタッチメントタイプを整理する
 =====================================================================
-* `詳細 <>`_
+* `詳細 <https://qiita.com/tyskJ/items/46f7446f0eaf453f0bea>`_
 
 =====================================================================
 構成図
@@ -164,3 +164,4 @@ OCI Block Volume のアタッチメントタイプを整理する
 * `Terraform v1.9 では null_resource を安全に terraform_data に置き換えることができる -Zenn <https://zenn.dev/terraform_jp/articles/tf-null-resource-to-terraform-data>`_
 
 * `Terraform cloudinit Provider を使って MIME multi-part 形式の cloud-init 設定を管理する - HatenaBlog <https://chaya2z.hatenablog.jp/entry/2025/10/15/040000>`_
+
