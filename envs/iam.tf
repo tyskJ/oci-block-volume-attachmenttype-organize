@@ -1,8 +1,8 @@
 /************************************************************
 Dynamic Group - Compute
 ************************************************************/
-# Terraform で動的グループを作成するには、ルートコンパートメントのDefaultドメインにしか作成できない
-# 手動で作成する分には、別のアイデンティティドメインに作成可能
+# 「oci_identity_dynamic_group」を使用する場合はルートコンパートメントのDefaultアイデンティティドメインにしか作成できない
+# 「oci_identity_domains_dynamic_resource_group」を使用すれば、指定のアイデンティティドメインに作成可能
 resource "oci_identity_dynamic_group" "compute" {
   compartment_id = var.tenancy_ocid
   name           = "Compute_Dynamic_Group"
@@ -59,4 +59,5 @@ resource "oci_identity_policy" "compute_for_agent_logmoni" {
     format("%s.%s", oci_identity_tag_namespace.common.name, oci_identity_tag_default.key_managedbyterraform.tag_definition_name) = "true"
   }
 }
+
 
