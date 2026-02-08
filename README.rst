@@ -29,7 +29,7 @@ OCI Block Volume のアタッチメントタイプを整理する
 前提条件
 =====================================================================
 * ``manage all-resources IN TENANCY`` を付与した IAM グループに所属する IAM ユーザーが作成されていること
-* 実作業は *envs* フォルダ配下の各環境フォルダで実施すること
+* 実作業は *envs* フォルダ配下で実施すること
 * 以下コマンドを実行し、*ADMIN* プロファイルを作成していること (デフォルトリージョンは *ap-tokyo-1* )
 
 .. code-block:: bash
@@ -163,5 +163,6 @@ OCI Block Volume のアタッチメントタイプを整理する
 * `Terraformの auto.tfvars を使うと、環境管理がずっと楽になる話 - note <https://note.com/minato_kame/n/neb271c81e0e2>`_
 * `Terraform v1.9 では null_resource を安全に terraform_data に置き換えることができる -Zenn <https://zenn.dev/terraform_jp/articles/tf-null-resource-to-terraform-data>`_
 * `Terraform cloudinit Provider を使って MIME multi-part 形式の cloud-init 設定を管理する - HatenaBlog <https://chaya2z.hatenablog.jp/entry/2025/10/15/040000>`_
+
 
 
